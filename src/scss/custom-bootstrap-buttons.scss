@@ -1,0 +1,16 @@
+@import "./colors.scss";
+
+.btn {
+    border-radius: 8px;
+
+    &.btn-primary {
+        background-color: $blue;
+        border-color: $blue;
+        border-radius: 8px;
+
+        &:hover,
+        &:active {
+            background-color: $blue-hover !important;
+        }
+    }
+}

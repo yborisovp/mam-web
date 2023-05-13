@@ -1,0 +1,93 @@
+@import '../../scss/colors.scss';
+
+@import '../../fonts/fonts.scss';
+
+.body {
+    font-family: 'Inter-Regular';
+
+    .searchContainer {
+        background-color: #003D9B;
+        padding-top: 20vh;
+        padding-bottom: 20vh;
+
+        &__search-text {
+            font-family: Inter-Bold;
+            color: $white;
+
+            h2 {
+                font-size: 26px;
+                margin-bottom: 10px;
+            }
+
+            h1 {
+                font-size: 52px;
+            }
+        }
+
+        &__search-toolbox {
+            height: 66px;
+
+            &--item {
+                background-color: $white;
+                border-right: 1px solid $gray;
+
+                padding: 0;
+
+                &.first {
+                    border-radius: 8px 0 0 8px;
+
+                    button {
+                        border-radius: 8px 0 0 8px;
+                    }
+                }
+
+                &__type {
+                    font-family: 'Inter-Regular';
+                    font-size: 10px;
+                }
+
+                button {
+                    font-family: 'Inter-Medium';
+                    font-size: 14px;
+                    min-width: 150px;
+                    text-align: justify;
+                    vertical-align: top;
+                    height: 100%;
+                    background-color: white;
+                    border: 0;
+
+                    &::after {
+                        float: right;
+                    }
+                }
+
+            }
+
+            &--search {
+                border: 0;
+                background-color: $blue;
+                color: $white;
+                border-radius: 0 8px 8px 0;
+            }
+        }
+    }
+
+    .recommend {
+
+        &__text {
+            font-family: 'Inter-SemiBold';
+            font-size: 28px;
+            color: $black;
+        }
+    }
+
+    .cars {
+
+        &__text {
+            font-family: 'Inter-SemiBold';
+            font-size: 28px;
+            color: $black;
+        }
+
+    }
+}

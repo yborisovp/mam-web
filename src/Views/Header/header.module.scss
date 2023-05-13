@@ -1,0 +1,27 @@
+.header {
+    position: relative;
+
+    .search {
+
+        position: relative;
+
+        .fa-search {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #9ca3af;
+        }
+
+        .search-input {
+            height: 55px;
+            text-indent: 33px;
+            border-radius: 10px;
+
+            &:focus {
+                box-shadow: none;
+                border: none;
+
+            }
+        }
+    }
+}

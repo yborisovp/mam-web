@@ -1,16 +1,40 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import UserPage from "./Views/UserPage";
+import HomePage from "./Views/Home/HomePage";
+import reportWebVitals from "./reportWebVitals";
+import { AuthorizationPage } from "./Views/Authorization/Authorization";
+import HeaderLayout from "./Views/HeaderLayout";
+
+import "./scss/bootstrap-custom.scss";
+import "./scss/custom-bootstrap-buttons.scss";
+import "./scss/default.scss";
+import "./css/reset.css";
+import "./css/default.css";
+import "./index.scss";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    <React.StrictMode>
+      <Routes>
+        <Route element={<HeaderLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="me" element={<UserPage />} />
+        </Route>
+
+        <Route path="/login" element={<AuthorizationPage isLogin={true} />} />
+        <Route
+          path="/registration"
+          element={<AuthorizationPage isLogin={false} />}
+        />
+      </Routes>
+    </React.StrictMode>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

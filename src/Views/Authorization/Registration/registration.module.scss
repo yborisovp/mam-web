@@ -1,0 +1,48 @@
+@import '../../../scss/colors.scss';
+@import '../../../fonts/fonts.scss';
+
+.card {
+    min-width: 320px;
+    max-width: 400px;
+    border: none;
+    overflow: hidden;
+    border-radius: 8px;
+
+    .card-form {
+        height: 100%;
+        padding: 0px 20px 15px 20px;
+        background-color: $white;
+
+        .input-field {
+            background-color: $white;
+            border: 1px solid $white;
+            margin-bottom: 20px;
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+            box-shadow: 0px 0px 4px 1px rgba(34, 60, 80, 0.1);
+
+            .form-control {
+                box-shadow: none;
+                border: none;
+            }
+
+            input {
+                &:focus {
+                    &::placeholder {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        .btn {
+            min-width: 100px;
+        }
+
+    }
+
+    .fs-08 {
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+}
