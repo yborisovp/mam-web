@@ -7,16 +7,18 @@ const filepath = path.join(__dirname, "../../../../../../");
 module.exports = {
   mode: "development",
   entry: "./src/index.tsx",
-  devtool: "inline-source-map",
+  devtool: "source-map",
   output: {
-    path: filepath,
-    filename: "js/[name].js",
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "public/"),
     assetModuleFilename: "assets/[name][ext]",
   },
   devServer: {
-    static: "./dist",
+    static: {
+      directory: path.join(__dirname, "public"),
+    },
     historyApiFallback: true,
-    compress: true,
+    liveReload: true,
     hot: false,
   },
   module: {

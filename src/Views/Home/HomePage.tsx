@@ -10,6 +10,8 @@ import { IBannerItem } from "../../Models/BannerItem";
 import { BannerItemView } from "../BannerItem/BannerItemView";
 
 import styles from "./home.module.scss";
+import { Link, useNavigate } from "react-router-dom";
+import { ItemView } from "../Item/ItemView";
 
 function HomePage() {
   const [query, setQuery] = useState("");
@@ -101,7 +103,10 @@ function HomePage() {
     imgUrl:
       "https://cdn.luxe.digital/media/20230105073805/fastest-cars-world-2023-list-ranking-luxe-digital.jpg",
   };
-
+  const navigate = useNavigate();
+  const handleClick = (item: string) => {
+    navigate("/item/");
+  };
   return (
     <div className={styles.body + " container-xl"}>
       <div
@@ -149,7 +154,9 @@ function HomePage() {
           {[...Array(2)].map((x, i) => (
             <div key={i + x} className="d-flex justify-content-between mb-4">
               {[...Array(5)].map((y, j) => (
-                <SellItemView key={j} sellItem={sellItem} />
+                <div onClick={() => handleClick(i + 1 + "." + (j + 1))}>
+                  <SellItemView key={j} sellItem={sellItem} />
+                </div>
               ))}
             </div>
           ))}

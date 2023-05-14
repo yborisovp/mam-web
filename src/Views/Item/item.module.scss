@@ -1,0 +1,278 @@
+@import "../../scss/colors.scss";
+
+@mixin button-variant($background, $border, $color) {
+    background-color: $background;
+    border: 1px solid $border;
+    color: $color;
+
+    &:hover {
+        border: 1px solid $border;
+        color: $color;
+    }
+}
+
+.btn-primary {
+    @include button-variant($blue, $blue, $white);
+}
+
+.btn-success {
+    @include button-variant($green, $green, $white);
+}
+
+body {
+    font-family: 'Inter-Regular';
+    color: $black;
+}
+
+.btn-primary {
+    &.basic {
+        @include button-variant($blue, $blue, $white);
+    }
+}
+
+.body {
+
+    .container {
+
+        .sell-photos {
+            width: inherit;
+            height: fit-content;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+
+            .item {
+                &__main {
+                    &--image {
+                        padding-left: 0;
+                        padding-right: 0;
+                        height: 500px;
+                        border-radius: 8px;
+                        max-width: 100%;
+                        height: auto;
+                    }
+                }
+
+                &__sub-images {
+                    padding-left: 0;
+                    padding-right: 0;
+                    display: grid;
+                    grid-auto-flow: row;
+                    gap: 16px;
+
+                    &--image {
+                        border-radius: 8px;
+                        min-width: 50%;
+                        max-width: 100%;
+                        height: auto;
+                    }
+
+                    &--vert-container {
+                        display: grid;
+                        grid-template-columns: 2fr 1fr;
+                        gap: 16px;
+
+                        &__main {
+                            font-style: 'Inter-Regular';
+
+                            &--image {
+                                border-radius: 8px;
+                                min-width: 50%;
+                                max-width: 100%;
+                                height: auto;
+                            }
+                        }
+
+                        &__vertical {
+                            display: grid;
+                            gap: 16px;
+
+                            &--image {
+                                border-radius: 8px;
+                                width: 134px;
+                                height: auto;
+                            }
+                        }
+                    }
+
+                    &--horizontal {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr;
+                        gap: 16px;
+
+                        &__image {
+                            border-radius: 8px;
+                            width: 134px;
+                            height: auto;
+                        }
+                    }
+                }
+
+
+            }
+
+        }
+
+        .sell-item-info {
+            width: inherit;
+
+            .item-title {
+                font-family: 'Inter-Regular';
+
+                &__info {
+                    font-family: 'Inter-Regular';
+
+                    &--price {
+
+                        font-family: 'Inter-Bold';
+                        font-size: 32px;
+                    }
+
+                    &--about {
+                        font-family: 'Inter-Regular';
+
+                        &__title {
+                            font-family: 'Inter-SemiBold';
+                            font-size: 20px;
+                        }
+
+                        &__place {
+                            font-family: 'Inter-SemiBold';
+                            font-size: 10px;
+                        }
+                    }
+
+                    &--tags {
+                        font-family: 'Inter-Regular';
+
+                        &__tag {
+                            font-family: 'Inter-Medium';
+                            font-size: 14px;
+                            color: $gray;
+                        }
+
+                        &__separator {
+                            margin-top: 1px;
+                            align-self: center;
+                            width: 5px;
+                            height: 5px;
+                            background-color: $gray;
+                            border-radius: 50%;
+                        }
+                    }
+
+                    &__contact {
+                        font-family: 'Inter-Regular';
+
+                        &--write-to-seller {
+                            font-family: 'Inter-Regular';
+                            font-size: 12px;
+                        }
+
+                        &--show-seller-number {
+                            font-family: 'Inter-Regular';
+                        }
+                    }
+
+                }
+
+
+            }
+
+            .item-first-place-info {
+                /* display: grid;
+                grid-template-columns: 2fr 1fr 2fr 1fr 2fr 1fr 2fr;
+                grid-template-rows: 1fr;
+                gap: 0px 0px;
+                grid-template-areas:
+                    ". . . . . . ."; */
+                display: flex;
+                justify-content: space-between;
+                background-color: $v-l-gray;
+                border-radius: 8px;
+                padding: 12px 21px;
+
+                &__block {
+                    display: flex;
+                    flex-direction: column;
+
+                    &--title {
+                        display: inline-block;
+                        text-align: center;
+                        text-align: center;
+                        font-family: 'Inter-SemiBold';
+                        font-size: 18px;
+                    }
+
+                    &--additional-info {
+                        font-family: 'Inter-Medium';
+                        font-size: 12px;
+                        color: $gray;
+                    }
+                }
+
+                &__separator {
+                    align-self: center;
+                    width: 0.5px;
+                    height: 30px;
+                    rotate: (25deg);
+                    background-color: $w-gray;
+                }
+            }
+
+            .item-spec {
+                font-family: 'Inter-Regular';
+
+                &__row {
+
+                    font-family: 'Inter-Regular';
+
+                    &--first-attribute {
+                        font-size: 14px;
+                    }
+
+                    &--second-attribute {
+                        font-family: 'Inter-SemiBold';
+                        font-size: 14px;
+                    }
+                }
+
+                &__separation {
+                    background-color: $v-l-gray;
+                    height: 1px;
+                }
+            }
+
+            .item-description {
+
+                font-family: 'Inter-Regular';
+
+                &__title {
+                    font-family: 'Inter-SemiBold';
+                    font-size: 20px;
+                }
+
+                &__text {
+                    font-family: 'Inter-Regular';
+                    font-size: 16px;
+                }
+            }
+
+            .item-contact {
+
+                font-family: 'Inter-Regular';
+
+                &__input {
+                    display: grid;
+                    grid-template-columns: 2fr 1fr;
+                    grid-template-rows: 1fr;
+                    gap: 0px 15px;
+                    grid-template-areas:
+                        ". .";
+
+                    &--button {}
+                }
+            }
+        }
+    }
+}

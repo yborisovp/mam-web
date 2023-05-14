@@ -13,6 +13,7 @@ import "./scss/custom-bootstrap-buttons.scss";
 import "./scss/default.scss";
 import "./css/reset.css";
 import "./index.scss";
+import { ItemView } from "./Views/Item/ItemView";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -24,6 +25,7 @@ root.render(
         <Route element={<HeaderLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="me" element={<UserPage />} />
+          <Route path="/item" element={<ItemView />} />
         </Route>
 
         <Route path="/login" element={<AuthorizationPage isLogin={true} />} />
