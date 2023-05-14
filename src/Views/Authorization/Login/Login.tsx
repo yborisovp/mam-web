@@ -1,11 +1,6 @@
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGithub,
-  faGoogle,
-  faVk,
-  faYandex,
-} from "@fortawesome/free-brands-svg-icons";
+import { faGoogle, faVk, faYandex } from "@fortawesome/free-brands-svg-icons";
 import { Link } from "react-router-dom";
 
 import styles from "./login.module.scss";
@@ -16,9 +11,6 @@ export const LoginPage = () => {
       <div className="card-head bg-white d-flex flex-column space-around">
         <p className="m-0 text-center mt-3 mb-2">Войти с помощью</p>
         <div className="d-flex align-items-center justify-content-center gap-4">
-          <Button variant="light github">
-            <FontAwesomeIcon icon={faGithub} />
-          </Button>
           <Button variant="light google">
             <FontAwesomeIcon icon={faGoogle} />
           </Button>
@@ -31,10 +23,10 @@ export const LoginPage = () => {
         </div>
       </div>
       <div className={styles["card-form"]}>
-        <p className="text-center text-muted fs-08 mt-3">
+        <p className="text-center text-muted fs-08 mt-3 mb-3">
           Или войдите с помощью почты
         </p>
-        <div className="d-flex align-items-center input-field">
+        <div className={styles["input-field"] + " d-flex align-items-center"}>
           <input
             type="email"
             placeholder="Email"
@@ -42,7 +34,7 @@ export const LoginPage = () => {
             required
           />
         </div>
-        <div className="d-flex align-items-center input-field">
+        <div className={styles["input-field"] + " d-flex align-items-center"}>
           <input
             type="password"
             placeholder="Пароль"

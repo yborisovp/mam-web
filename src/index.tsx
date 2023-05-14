@@ -12,7 +12,6 @@ import "./scss/bootstrap-custom.scss";
 import "./scss/custom-bootstrap-buttons.scss";
 import "./scss/default.scss";
 import "./css/reset.css";
-import "./css/default.css";
 import "./index.scss";
 
 const root = ReactDOM.createRoot(

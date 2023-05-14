@@ -5,6 +5,11 @@
 }
 
 @font-face {
+    font-family: Inter-Regular;
+    src: url("./Inter-Regular.woff2") format('woff2');
+    font-weight: 400;
+}
+@font-face {
     font-family: 'Inter-Bold';
     src: url('./Inter-Bold.woff2') format('woff2');
     font-weight: 400;
@@ -29,16 +34,11 @@
 }
 
 @font-face {
-    font-family: 'Inter-Medium';
+    font-family: Inter-Medium;
     src: url('./Inter-Medium.woff2') format('woff2');
     font-weight: 400;
 }
 
-@font-face {
-    font-family: 'Inter-Regular';
-    src: url('./Inter-Regular.woff2') format('woff2');
-    font-weight: 400;
-}
 
 @font-face {
     font-family: 'Inter-SemiBold';

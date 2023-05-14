@@ -3,14 +3,13 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const isDevelopment = process.env.NODE_ENV === "development";
-const filepath = path.join(__dirname, "/dist");
+const filepath = path.join(__dirname, "../../../../../../");
 module.exports = {
   mode: "development",
   entry: "./src/index.tsx",
   devtool: "inline-source-map",
   output: {
     path: filepath,
-    publicPath: "/",
     filename: "js/[name].js",
     assetModuleFilename: "assets/[name][ext]",
   },
@@ -77,7 +76,9 @@ module.exports = {
           },
           {
             loader: "resolve-url-loader",
-            options: { sourceMap: true },
+            options: {
+              sourceMap: true,
+            },
           },
           {
             loader: "sass-loader",

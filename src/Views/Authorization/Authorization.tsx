@@ -15,7 +15,9 @@ export const AuthorizationPage = ({
       <div className="d-flex justify-content-center align-items-center flex-wrap">
         <div className="content row">
           <div className="header col ">
-            <div className="h3 align-self-top">Мой Авто Мир</div>
+            <div className={styles.title + " h3 align-self-top"}>
+              Мой Авто Мир
+            </div>
             <div className={styles.text}>
               Откройте для себя новый спосооб искать
               <span> автомобили</span>

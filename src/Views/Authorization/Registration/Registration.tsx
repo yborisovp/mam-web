@@ -31,10 +31,10 @@ export const RegistrationPage = () => {
         </div>
       </div>
       <div className={styles["card-form"]}>
-        <p className="text-center text-muted fs-08 mt-3">
+        <p className="text-center text-muted fs-08 mt-3 mb-4">
           Или продолжите с помощью почты
         </p>
-        <div className="d-flex align-items-center input-field">
+        <div className={styles["input-field"] + " d-flex align-items-center"}>
           <input
             type="text"
             placeholder="Имя"
@@ -48,7 +48,7 @@ export const RegistrationPage = () => {
             required
           />
         </div>
-        <div className="d-flex align-items-center input-field">
+        <div className={styles["input-field"] + " d-flex align-items-center"}>
           <input
             type="tel"
             placeholder="Номер телефона"
@@ -56,7 +56,7 @@ export const RegistrationPage = () => {
             required
           />
         </div>
-        <div className="d-flex align-items-center input-field">
+        <div className={styles["input-field"] + " d-flex align-items-center"}>
           <input
             type="email"
             placeholder="Email"
@@ -64,7 +64,7 @@ export const RegistrationPage = () => {
             required
           />
         </div>
-        <div className="d-flex align-items-center input-field">
+        <div className={styles["input-field"] + " d-flex align-items-center"}>
           <input
             type="password"
             placeholder="Пароль"
@@ -72,7 +72,7 @@ export const RegistrationPage = () => {
             required
           />
         </div>
-        <div className="d-flex align-items-center input-field">
+        <div className={styles["input-field"] + " d-flex align-items-center"}>
           <input
             type="password"
             placeholder="Подтвердите пароль"
