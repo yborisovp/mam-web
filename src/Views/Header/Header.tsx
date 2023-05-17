@@ -4,9 +4,13 @@ import styles from "./header.module.scss";
 function Header() {
   return (
     <header className={styles.header + " mb-5 mt-1 row"}>
-      <div className={" col-3 d-flex justify-content-center align-self-center"}>
-        MY AUTO MIR
-      </div>
+      <Link to={"/"}>
+        <div
+          className={" col-3 d-flex justify-content-center align-self-center"}
+        >
+          MY AUTO MIR
+        </div>
+      </Link>
       <div
         className={
           styles.search +
