@@ -14,6 +14,7 @@ import "./scss/default.scss";
 import "./css/reset.css";
 import "./index.scss";
 import { ItemView } from "./Views/Item/ItemView";
+import { CreateEditView } from "./Views/CreateEditView/CreateEditView";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -26,6 +27,8 @@ root.render(
           <Route path="/" element={<HomePage />} />
           <Route path="me" element={<UserPage />} />
           <Route path="/item" element={<ItemView />} />
+          <Route path="/create" element={<CreateEditView edit={false} />} />
+          <Route path="/edit" element={<CreateEditView edit={true} />} />
         </Route>
 
         <Route path="/login" element={<AuthorizationPage isLogin={true} />} />
