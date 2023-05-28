@@ -1,0 +1,76 @@
+.active {
+    border       : none;
+    border-bottom: 0px;
+    text-align   : start;
+    border-radius: 0;
+}
+
+.active:active {
+    border       : none;
+    border-bottom: 0px;
+}
+
+.accordion-button {
+    color: dimgrey;
+}
+
+.input-custom {
+    width: 100%;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    box-shadow      : none;
+    background-color: white;
+    color           : dimgrey;
+}
+
+@import url("https://use.fontawesome.com/releases/v5.15.0/css/all.css");
+
+.accordion-button:not(.collapsed)::after {
+    content         : "\f067";
+    font-family     : "Font Awesome 5 Free";
+    color           : dimgrey;
+    background-image: none;
+}
+
+.accordion-button.collapsed::after {
+    /* content: "\f057";  x*/
+    /* content: "\f058";  check*/
+    /* "\f067"  plus*/
+    /* "\f068"  minus*/
+    content         : "\f067";
+    color           : dimgrey;
+    font-weight     : 400;
+    font-family     : "Font Awesome 5 Free";
+    background-image: none;
+}
+
+.accordion {
+    --bs-accordion-btn-icon-transform: none;
+    --bs-accordion-border-width      : none;
+}
+
+.container-main {
+    max-width: 1200px;
+}
+
+.img-h {
+    max-height: 230px;
+}
+
+.text-all-end {
+    text-align: end;
+}
+
+.text-color-demigray {
+    color: dimgray;
+}
+
+.desc {
+    text-align: justify;
+    color     : #353839;
+}

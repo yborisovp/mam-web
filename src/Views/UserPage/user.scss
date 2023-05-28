@@ -1,0 +1,18 @@
+.container {
+    font-family: "Inter-Regular" !important;
+}
+.crop-text-user {
+    -webkit-line-clamp: 4;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  .text-color-demigray{
+    color: dimgray;
+}
+
+.container-main{
+    max-width: 1200px;
+}

@@ -1,331 +1,190 @@
-import { Button } from "react-bootstrap";
+import { Button, Carousel } from "react-bootstrap";
 import styles from "./item.module.scss";
+import { YMaps } from "react-yandex-maps";
+import { useState } from "react";
 
 export const ItemView = () => {
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex: number, e: any) => {
+    setIndex(selectedIndex);
+  };
   return (
     <div
       className={
         styles.body + " d-flex justify-content-center align-items-center"
       }
     >
-      <div className={styles.container + " container row d-flex"}>
-        <div className={styles["sell-photos"] + " col-5"}>
-          <div className="item__main">
-            <img
-              src="https://cdn.shopify.com/s/files/1/0163/6622/files/Screen_Shot_2019-06-07_at_7.40.24_PM_copy.jpg?v=1648162446"
-              alt=""
-              className={styles["item__main--image"]}
-            />
-          </div>
-          <div className={styles["item__sub-images"] + " container"}>
-            <div className={styles["item__sub-images--vert-container"]}>
-              <div className={styles["item__sub-images--vert-container__main"]}>
-                <img
-                  src="https://cdn.motor1.com/images/mgl/RqJxK9/77:0:1244:934/koenigsegg-jesko-5.webp"
-                  alt=""
-                  className={
-                    styles["item__sub-images--vert-container__main--image"]
-                  }
-                />
-              </div>
-              <div
-                className={styles["item__sub-images--vert-container__vertical"]}
-              >
-                {[...Array(3)].map((x, i) => (
+      <div className={styles.container + " container mt-4 mb-3"}>
+        <div className="row">
+          <div className="col-12">
+            <Carousel
+              fade
+              className="mb-4 w-100 shadow-1-strong rounded-2 align-self-center"
+              activeIndex={index}
+              onSelect={handleSelect}
+            >
+              <Carousel.Item className="rounded-2">
+                <div className={styles["img-container"] + " rounded-1"}>
                   <img
-                    src="https://cdn.shopify.com/s/files/1/0163/6622/files/Screen_Shot_2019-06-07_at_7.40.24_PM_copy.jpg?v=1648162446"
-                    alt=""
-                    key={i}
-                    className={
-                      styles[
-                        "item__sub-images--vert-container__vertical--image"
-                      ]
-                    }
+                    src="https://hips.hearstapps.com/hmg-prod/images/2023-mclaren-artura-101-1655218102.jpg?crop=1.00xw:0.847xh;0,0.153xh&resize=1200:*"
+                    className="mx-auto rounded-2 d-block"
+                    alt="..."
                   />
-                ))}
-              </div>
-            </div>
-            <div className={styles["item__sub-images--horizontal"]}>
-              {[...Array(3)].map((x, i) => (
-                <img
-                  src="https://cdn.luxe.digital/media/20230105073805/fastest-cars-world-2023-list-ranking-luxe-digital.jpg"
-                  alt=""
-                  key={i}
-                  className={styles["item__sub-images--horizontal__image"]}
-                />
-              ))}
-            </div>
+                </div>
+              </Carousel.Item>
+              <Carousel.Item className="rounded-2">
+                <div className={styles["img-container"] + " rounded-1"}>
+                  <img
+                    src="https://img.freepik.com/free-photo/blue-black-muscle-car-with-license-plate-that-says-trans-front_1340-23399.jpg"
+                    className="mx-auto rounded-2 d-block"
+                    alt="..."
+                  />
+                </div>
+              </Carousel.Item>
+            </Carousel>
           </div>
-        </div>
-        <div className={styles["sell-item-info"] + " col-7"}>
-          <div
-            className={
-              styles["item-title"] +
-              " d-flex justify-content-between align-items-center align-content-center mb-3"
-            }
-          >
-            <div className={styles["item-title__info"] + " mb-3"}>
-              <div className={styles["item-title__info--price"] + " mb-3"}>
-                1 100 000 ₽
-              </div>
-              <div className={styles["item-title__info--about"]}>
-                <span
-                  className={styles["item-title__info--about__title"] + " me-2"}
-                >
-                  2018, Audi Q3
-                </span>
-                <span className={styles["item-title__info--about__place"]}>
-                  Таганрог, Ростовская область
-                </span>
-              </div>
-              <div className={styles["item-title__info--tags"] + " d-flex"}>
-                <div
-                  className={styles["item-title__info--tags__tag"] + " me-2"}
-                >
-                  Хетчбек
+          <div className="col-8 pe-0">
+            <div className={styles["card-main"] + " card p-4 pt-0 mb-3 "}>
+              <div className="row mx-0">
+                <div className="col-10 p-0">
+                  <h4 className={styles["item-title"] + " mx-2 mb-2 m-0"}>
+                    Продам Toyota Vitz, 2017 год
+                  </h4>
+                  <h6 className=" mx-2 mb-0 font-monospace text-color-demigray"></h6>
                 </div>
-                <div
-                  className={
-                    styles["item-title__info--tags__separator"] + " me-2"
-                  }
-                ></div>
-                <div
-                  className={styles["item-title__info--tags__tag"] + " me-2"}
-                >
-                  125 л.с.
-                </div>
-                <div
-                  className={
-                    styles["item-title__info--tags__separator"] + " me-2"
-                  }
-                ></div>
-                <div className={styles["item-title__info--tags__tag"]}></div>
               </div>
-              <div
-                className={
-                  styles["item-title__info__contact"] +
-                  "d-flex flex-column align-items-end "
-                }
-              >
-                <div
-                  className={
-                    styles["item-title__info__contact--write-to-seller"] +
-                    " mb-2"
-                  }
-                >
-                  <i className="fa"></i>
-                  <Button variant="primary">Написать</Button>
-                </div>
-                <div
-                  className={
-                    styles["item-title__info__contact--show-seller-number"]
-                  }
-                >
-                  <i className="fa"></i>
-                  <Button variant="success">Показать телефон</Button>
+
+              <div className={styles["card-info"] + " card mt-4 p-2"}>
+                <div className="row text-center">
+                  <div className="col-3">
+                    <h5>Правый</h5>
+                    <h6 className="text-color-demigray">Руль</h6>
+                  </div>
+                  <div className="col-3">
+                    <h5>135</h5>
+                    <h6 className="text-color-demigray">Л.С.</h6>
+                  </div>
+                  <div className="col-3">
+                    <h5>Правый</h5>
+                    <h6 className="text-color-demigray">Руль</h6>
+                  </div>
+                  <div className="col-3">
+                    <h5>135</h5>
+                    <h6 className="text-color-demigray">Л.С.</h6>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className={styles["item-first-place-info"] + " mb-3"}>
-            <div
-              className={
-                styles["item-first-place-info__block"] +
-                " d-flex flex-column align-content-center"
-              }
-            >
-              <div
-                className={
-                  styles["item-first-place-info__block--title"] + " text-center"
-                }
-              >
-                123
+            <div className={styles["card-main"] + " card p-3"}>
+              <h5 className="text-w-600">Общая информация</h5>
+              <div className="row mt-3">
+                <div className="d-flex flex-column">
+                  <div className="d-flex flex-row justify-content-between">
+                    <p className="mt-2 text-color-demigray">Состояние</p>
+                    <p className="text-end mt-2">Не битый</p>
+                  </div>
+                  <hr className="mt-1 w-100" />
+                </div>
               </div>
-              <div
-                className={
-                  styles["item-first-place-info__block--additional-info"] +
-                  " text-center"
-                }
-              >
+            </div>
+            <div className={styles["card-main"] + " card p-3"}>
+              <h5 className="text-w-600">Описание</h5>
+              <p className={styles["text-main"] + " mt-2"}>
                 {" "}
-                Просмотров за все время
-              </div>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Incidunt minus recusandae eius saepe ab fugit delectus illum
+                alias? Laudantium consequuntur fuga corporis deserunt
+                dignissimos, excepturi alias necessitatibus! Eligendi odit,
+                velit deleniti aliquid hic debitis quisquam temporibus tenetur
+                maxime veniam a dolorem tempore fuga. Maxime blanditiis nobis
+                debitis odit alias nemo quas sequi facere. Consectetur aliquid,
+                perspiciatis maxime sint doloribus inventore quaerat rerum cum
+                tempora facere rem nulla earum aut, aspernatur culpa accusamus
+                sequi unde, itaque nobis obcaecati incidunt voluptate nesciunt
+                architecto minus! Lorem ipsum dolor sit amet consectetur,
+                adipisicing elit. Incidunt minus recusandae eius saepe ab fugit
+                delectus illum alias? Laudantium consequuntur fuga corporis
+                deserunt dignissimos, excepturi alias necessitatibus! Eligendi
+                odit, velit deleniti aliquam aliquid eligendi assumenda
+                sapiente. Aperiam praesentium facere sunt inventore, odit
+                tempore nihil quaerat, eaque porro sint quae adipisci ab. At
+                voluptas sint necessitatibus temporibus iusto, nobis ipsum odit
+                eum fugiat quisquam voluptatum molestias nostrum accusamus
+                magni, ab quas saepe eos neque tempore consequatur aliquam alias
+                quod. Molestias eveniet sequi unde, itaque nobis obcaecati
+                incidunt voluptate nesciunt architecto minus! Lorem ipsum dolor
+                sit amet consectetur, adipisicing elit. Incidunt minus
+                recusandae eius saepe ab fugit delectus illum alias? Laudantium
+                consequuntur fuga corporis deserunt dignissimos, excepturi alias
+                necessitatibus! Eligendi odit, velit deleniti aliquam aliquid
+                eligendi assumenda sapiente. Aperiam praesentium facere sunt
+                inventore, odit tempore nihil quaerat, eaque porro sint quae
+                adipisci ab. At voluptas sint necessitatibus temporibus iusto,
+                nobis ipsum odit eum fugiat quisquam voluptatum molestias
+                nostrum accusamus magni, ab quas saepe eos neque tempore
+                consequatur aliquam alias quod. Molestias eveniet sequi unde,
+                itaque nobis obcaecati incidunt voluptate nesciunt architecto
+                minus!
+              </p>
             </div>
-            <div className={styles["item-first-place-info__separator"]}></div>
-          </div>
-          <div className={styles["item-spec"] + " mb-3"}>
-            <div
-              className={
-                styles["item-spec__row"] + "d-flex justify-content-between"
-              }
-            >
-              <div className={styles["item-spec__row--first-attribute"]}>
-                Состояние
-              </div>
-              <div className={styles["item-spec__row--second-attribute"]}>
-                Не битый
-              </div>
-            </div>
-            <div className={styles["item-spec__separation"] + "mb-3"}></div>
-          </div>
-          <div className={styles["item-description"] + " mb-3"}>
-            <div className={"item-description__title"}>Описание</div>
-            <div className={styles["item-description__text"]}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis
-              nostrum, incidunt consectetur magnam optio nobis veniam cum
-              facilis exercitationem corrupti quisquam nulla numquam dignissimos
-              at ipsum repellendus tempore. Eos, repudiandae. Consequuntur fugit
-              perferendis labore, omnis minima iste fuga explicabo repellat amet
-              minus. Sit nemo optio doloribus impedit omnis voluptatum esse
-              similique quis dolorum! Ipsum repellat vero velit adipisci,
-              blanditiis architecto! Maiores ducimus soluta dolores quae qui
-              esse magnam nostrum nobis dolor velit molestiae voluptate
-              blanditiis id, atque animi deleniti, laudantium ad, corrupti hic
-              accusantium neque! Asperiores ullam dolor dolore ex. Cumque,
-              labore explicabo. Quas aperiam quaerat explicabo hic doloremque.
-              Quos mollitia odit eligendi repellendus beatae quo, architecto
-              laboriosam hic autem, fuga praesentium reprehenderit harum,
-              inventore dolor cumque voluptate nisi perferendis. Dolorum
-              repudiandae officiis facere nostrum porro sit! Odit harum libero
-              labore mollitia voluptatibus quaerat fugiat voluptatum ratione?
-              Eos voluptas nulla natus est, nesciunt distinctio? Sapiente enim
-              itaque cupiditate. Dolor, illum. Tempora similique architecto
-              neque culpa, sunt ad, voluptates veniam doloremque, totam numquam
-              fugit perspiciatis enim quia expedita repudiandae saepe facere
-              dolorum asperiores provident labore odit. Molestiae labore
-              suscipit quidem sit. Praesentium ab accusantium hic unde eius
-              dignissimos magnam itaque expedita totam iusto nesciunt culpa,
-              reprehenderit, ipsa quam quo ratione atque et id eos eaque
-              consequatur ducimus quod. Beatae, sequi accusamus. Illo, fugiat ab
-              doloremque autem alias sunt harum inventore doloribus dignissimos
-              natus pariatur officia necessitatibus cum. Mollitia corrupti
-              sapiente magnam ratione consequuntur doloribus reprehenderit?
-              Molestiae aliquid minus culpa nisi nobis. Omnis iste, nobis nemo,
-              deleniti rem neque natus cum reiciendis esse molestias maxime
-              saepe sunt rerum quo molestiae quas enim dolorum laboriosam porro
-              et reprehenderit alias eum. Saepe, aperiam soluta? Distinctio
-              deserunt libero quae, nobis saepe officiis reprehenderit
-              aspernatur illum, aut inventore dignissimos quasi tempora enim
-              corporis placeat laboriosam ducimus praesentium minima repudiandae
-              autem corrupti. Aspernatur sint debitis eum cupiditate. Deserunt
-              quis autem molestiae, impedit blanditiis sapiente eveniet vel
-              cumque nam est reiciendis, ducimus, non ullam. Deserunt eveniet
-              saepe reprehenderit officiis amet fugit repellendus quos, earum
-              exercitationem recusandae commodi totam! Molestiae rem reiciendis
-              iusto similique iure. Possimus aliquid sequi aliquam doloremque,
-              ullam officia unde ut? Labore nulla veritatis perspiciatis est
-              rerum? Nemo veritatis fugiat cum repellendus officiis tempore et
-              facilis. Aspernatur voluptatum quas, praesentium velit pariatur
-              eaque tempora consectetur perferendis quam magnam ullam inventore
-              repudiandae! Repudiandae optio tenetur expedita beatae ab numquam
-              reiciendis repellendus, corrupti odit neque delectus. Totam,
-              voluptate! Nostrum obcaecati cumque pariatur, praesentium natus,
-              qui laboriosam culpa repudiandae reiciendis sit voluptas. Nihil
-              debitis facilis nostrum laudantium blanditiis rerum minima officia
-              sequi consequuntur suscipit? Provident perspiciatis dolore
-              distinctio iusto? Maiores hic dignissimos, alias perferendis
-              libero sed incidunt, vitae iste ipsam magni quas amet at ut
-              sapiente quo pariatur quaerat voluptas quod! Consectetur officia,
-              cumque quibusdam laudantium ad voluptates nobis? Hic est enim
-              asperiores numquam quos assumenda doloribus aliquam debitis
-              dolore, beatae, ut repellat libero? Obcaecati earum explicabo
-              praesentium aliquam eligendi voluptate, culpa sint quia. Cum
-              deserunt accusamus itaque cumque! Delectus voluptatem laborum ad
-              voluptatum veritatis, eligendi vel asperiores nostrum. Ipsum
-              reiciendis provident saepe adipisci consectetur facilis sint,
-              eligendi, sapiente culpa quam ab suscipit fugiat magnam tempore
-              nam tenetur esse. Unde natus ipsa, voluptatem in id dolores
-              laudantium animi? Alias praesentium suscipit illum eos, esse saepe
-              accusantium ea quis, ipsa explicabo distinctio dolores molestias
-              laudantium voluptate quos. Doloribus, alias accusamus. Sed maxime
-              culpa, laborum expedita animi nobis repellat enim vero ullam eum
-              perspiciatis officiis quisquam ipsam asperiores recusandae
-              nesciunt similique amet voluptatibus commodi officia dolore!
-              Praesentium exercitationem mollitia qui eum. Amet dolore dolor
-              iusto commodi fugiat dolores dignissimos temporibus sequi ipsum,
-              enim ad rem exercitationem officia, totam possimus! Earum
-              doloremque harum quas similique laborum hic optio recusandae,
-              alias cum facere. Fugiat id, animi explicabo quaerat cum nostrum
-              nihil perspiciatis tempore expedita, distinctio magnam commodi
-              facere? Sequi consectetur soluta esse molestias. Vel labore libero
-              distinctio suscipit dolorem dicta ipsa omnis. Omnis? Et aliquam
-              dolor ipsam, impedit, amet omnis aut illum, placeat perferendis
-              ratione cumque ipsum dolorum expedita eligendi facere ullam
-              quibusdam corrupti soluta suscipit. Ipsum earum ipsa voluptatum
-              minima aliquam incidunt. Quo corporis, velit mollitia, expedita
-              animi molestias quam libero itaque, esse magnam illo cumque
-              placeat harum repellat eveniet neque? Porro doloremque quasi
-              magnam quaerat officiis dolorum, est vitae iste voluptates!
-              Perferendis placeat repudiandae facilis voluptatem blanditiis
-              saepe voluptas optio quam tempora minima cupiditate sit, omnis,
-              odit aperiam fugiat iure exercitationem vel, amet quod magnam
-              dolor mollitia nobis. Mollitia, recusandae quo? Facilis, quo
-              reiciendis consequuntur impedit, recusandae cupiditate unde
-              quisquam harum maiores facere sit nisi? Itaque reprehenderit ea
-              similique velit illum architecto neque vero saepe quisquam, iste,
-              animi nemo atque ab. Laborum quos distinctio exercitationem! Saepe
-              assumenda suscipit voluptate, ex perferendis provident harum
-              deleniti, nemo architecto, recusandae mollitia distinctio enim
-              repudiandae necessitatibus officiis impedit obcaecati minima minus
-              culpa nostrum veritatis dolorem. Delectus rem odit commodi, ex
-              eius aliquam distinctio repellat officia quia. Incidunt animi
-              suscipit doloribus dolore nisi corporis deleniti tempore illum
-              deserunt quidem harum molestias voluptas repudiandae similique,
-              est praesentium. Architecto saepe reprehenderit ea ipsum ipsam
-              ratione aliquid dolor ducimus, illum voluptates obcaecati deserunt
-              nam, eaque accusantium dignissimos ab, temporibus iste assumenda
-              autem nobis nemo. Aliquam quaerat porro repudiandae fuga!
-              Reiciendis fuga non modi dolore architecto soluta. Non odio, id
-              consectetur inventore cumque quo quidem consequatur ab veritatis
-              dolorem quae sint nihil beatae aspernatur provident nemo nesciunt
-              earum? Officiis, dicta. Reiciendis tempora harum recusandae hic,
-              accusantium est nostrum vel pariatur id voluptatum unde repellat
-              perferendis omnis eaque, repudiandae incidunt quibusdam libero
-              alias eligendi animi eos doloribus quod. Magnam, voluptas quae.
-              Ad, aperiam quia eaque quidem obcaecati perspiciatis reiciendis
-              nam dolor? Minus aliquid earum odio iste excepturi quam.
-              Consectetur, aperiam architecto? Est repellat totam quae atque
-              ipsum nobis ullam at cumque! Minus, a. Vitae magnam velit
-              explicabo autem ipsam vel accusantium sapiente hic doloremque
-              repellendus temporibus voluptas dolor nihil debitis minus
-              excepturi consequatur in exercitationem, id beatae laudantium
-              consectetur? Eveniet, autem. Impedit voluptatum molestias facilis
-              aliquam modi ullam et blanditiis suscipit illo? Aspernatur vel
-              culpa qui, at aut, praesentium tempora ipsa dolorem soluta
-              reprehenderit quia, dignissimos blanditiis aliquam ea a
-              voluptatum. In esse dolor distinctio earum at deleniti, qui
-              commodi laudantium! Voluptatum quia animi doloremque, fugiat sed
-              sequi dolore! Iure, dolorem. Eligendi sequi natus quas quidem
-              repudiandae quis aut modi numquam. Obcaecati sit perferendis
-              facere, iste reprehenderit praesentium excepturi, non placeat
-              ratione voluptate minus fugiat voluptatibus ab labore fuga
-              consequuntur aut at saepe ut. Nam veniam sed reiciendis molestiae
-              atque corporis. Vel perspiciatis doloremque sint, eaque et
-              suscipit non culpa. Optio perspiciatis repellat et vel
-              reprehenderit numquam fuga! Odit dolore deserunt porro cumque,
-              fuga corrupti cupiditate, commodi, eligendi hic eos veritatis!
-              Dolor eius, ad, dicta aut facere labore veritatis dignissimos
-              delectus sint similique quis molestias, vel dolores! Beatae
-              eligendi iste possimus quibusdam debitis vel pariatur excepturi
-              similique sit, perspiciatis quidem iusto? Pariatur, labore sunt
-              fuga vel voluptates expedita amet quas incidunt beatae! Nulla,
-              neque accusantium? Magnam maiores rerum ut libero molestiae
-              incidunt ipsum, quam ducimus officia asperiores. Sit sequi
-              obcaecati assumenda? Aspernatur sed voluptate, officiis aliquid
-              excepturi nihil quo ipsum? Quo aspernatur earum numquam adipisci
-              laudantium, delectus possimus, iste recusandae facilis molestias
-              ab exercitationem illum, deleniti quasi tempora odit ea! Dolor.
-              Quam sint vero aperiam blanditiis excepturi quaerat dolorem,
-              adipisci minus architecto et assumenda voluptas ducimus itaque
-              aspernatur sed! Minima, aliquam aut officia ea id cupiditate
-              laudantium tempora dolores consequatur autem.
+
+            <div className={styles["card-main"] + " card p-4"}>
+              <h5 className="mb-3 text-w-600">Местоположение</h5>
+              <YMaps query={{ lang: "en_RU" }}></YMaps>
             </div>
           </div>
-          <div className={styles["item-contact"] + " d-flex flex-column"}>
-            <div className={"mb-2"}>Свяжитесь с продавцом</div>
-            <div className={styles["item-contact__input"] + " grid"}>
-              <input type="text me-1 g-3" />
-              <button className={" btn btn-primary g-1"}>Отправить</button>
+          <div className="col-4">
+            <div className={styles.sticky + " card p-3 sticky-top"}>
+              <div className="d-flex flex-row icon-align-center justify-content-between">
+                <h3 className="mb-0">4 500 000 ₽</h3>
+                <a className="" href="#">
+                  <i className="fa-regular fa-heart fa-2x text-color-demigray"></i>
+                </a>
+              </div>
+
+              <hr className="mt-3 mb-3" />
+              <div className="row mt-2">
+                <div className="col-3">
+                  <img
+                    src="https://img.freepik.com/free-photo/blue-black-muscle-car-with-license-plate-that-says-trans-front_1340-23399.jpg"
+                    alt=""
+                    className="rounded-circle w-100 h-100"
+                  />
+                </div>
+                <div className="col-9">
+                  <p className="m-0 text-color-demigray">Продавец</p>
+                  <h5>Иван Иванов</h5>
+                </div>
+              </div>
+              <button
+                className="btn btn-success mt-3"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                <a href="#" className="icon-d">
+                  <i className="fa-solid fa-phone"></i>
+                </a>
+                Показать номер
+              </button>
+              <div className="collapse" id="collapseExample">
+                <div className={styles["card-main"] + " card card-body  py-2"}>
+                  +8 (951) 555 55 55
+                </div>
+              </div>
+              <button
+                className="btn btn-primary mt-2 mb-2"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseExample2"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+                Написать
+              </button>
             </div>
           </div>
         </div>

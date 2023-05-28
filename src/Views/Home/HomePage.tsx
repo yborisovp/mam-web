@@ -4,7 +4,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import useFetch from "../../hooks/UseFetch";
 import IDropdownItem from "./DropdownItem";
 
-import { ISellItem } from "../../Models/SellItem";
+import { SellItemModel } from "../../Models/SellItem/SellItem";
 import { SellItemView } from "../SellItem/SellItemView";
 import { IBannerItem } from "../../Models/BannerItem";
 import { BannerItemView } from "../BannerItem/BannerItemView";
@@ -86,15 +86,17 @@ function HomePage() {
     isSelected: false,
   };
 
-  let sellItem: ISellItem = {
+  let sellItem: SellItemModel = {
+    id: "",
+    createdAt: new Date(),
+    lasUpdatedAt: new Date(),
     title: "Porsche Panamera, 2023",
-    hint: "5 223 км",
+    description: "5 223 км",
     price: "15 000 000 Р",
     body: "",
     postedAt: new Date(),
-    imgUrl:
-      "https://cdn.luxe.digital/media/20230105073805/fastest-cars-world-2023-list-ranking-luxe-digital.jpg",
-    attributes: ["Б/У", "c", "dsfs", "sdfsfds"],
+    files: [],
+    attributes: []
   };
 
   let bannerItem: IBannerItem = {
@@ -112,7 +114,7 @@ function HomePage() {
       <div
         className={
           styles.searchContainer +
-          " container-xxl m-5 ps-5 pe-5 m-xxl-0 mb-xxl-4"
+          " d-none d-md-block w-100 container-xxl ps-5 pe-5 mb-xxl-4"
         }
       >
         <div className={styles["searchContainer__search-text"] + " mb-5"}>
@@ -140,7 +142,7 @@ function HomePage() {
         <div className={styles.recommend__text + " mb-3"}>
           Популярно в вашем регионе
         </div>
-        <div className="d-flex justify-content-between mb-5">
+        <div className="d-flex flex-column flex-md-row gap-3 gap-md-0 ms-4 me-4 ms-md-0 me-md-0 justify-content-between mb-5">
           {[...Array(4)].map((x, i) => (
             <BannerItemView key={i} bannerItem={bannerItem} />
           ))}
@@ -152,7 +154,10 @@ function HomePage() {
         </div>
         <div>
           {[...Array(2)].map((x, i) => (
-            <div key={i + x} className="d-flex justify-content-between mb-4">
+            <div
+              key={i + x}
+              className="d-flex flex-column gap-2 gap-md-0 flex-md-row ms-2 me-5 ms-md-0 me-md-0 justify-content-between mb-4"
+            >
               {[...Array(5)].map((y, j) => (
                 <div onClick={() => handleClick(i + 1 + "." + (j + 1))}>
                   <SellItemView key={j} sellItem={sellItem} />

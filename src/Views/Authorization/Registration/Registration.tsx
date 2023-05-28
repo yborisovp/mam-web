@@ -6,11 +6,45 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./registration.module.scss";
+import { useState } from "react";
+import { UserService } from "../../../Services/UserService";
+import { RegisterUserModel } from "../../../Models/User/RegisterUser";
+import { ApplicationRoutes } from "../../../RoutesConstants";
 
 export const RegistrationPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordValidate, setPasswordValidate] = useState("");
+
+  const [name, setName] = useState("");
+  const [secondName, setSecondName] = useState("");
+  const [phone, setPhone] = useState("");
+  const navigate = useNavigate();
+  const registerUser = () => {
+    if (password !== passwordValidate) {
+      alert("Пароли должны совпадать")
+    }
+    const registerUser: RegisterUserModel = {
+      $type: "PasswordRegistration",
+      name: name,
+      secondName: secondName,
+      phone: phone,
+      password: password,
+      email: email
+    }
+
+    const state = UserService.RegisterUser(registerUser);
+    if (state) {
+      navigate(ApplicationRoutes.HomePage)
+    }
+    else {
+      alert("User cannot be created")
+    }
+  }
+
   return (
     <div className={styles.card}>
       <div className="card-head bg-white d-flex flex-column space-around">
@@ -39,12 +73,14 @@ export const RegistrationPage = () => {
             type="text"
             placeholder="Имя"
             className={styles["form-control"]}
+            onChange={(evt) => setName(evt.target.value)}
             required
           />
           <input
             type="text"
             placeholder="Фамилия"
             className={styles["form-control"]}
+            onChange={(evt) => setSecondName(evt.target.value)}
             required
           />
         </div>
@@ -53,6 +89,7 @@ export const RegistrationPage = () => {
             type="tel"
             placeholder="Номер телефона"
             className={styles["form-control"]}
+            onChange={(evt) => setPhone(evt.target.value)}
             required
           />
         </div>
@@ -61,6 +98,7 @@ export const RegistrationPage = () => {
             type="email"
             placeholder="Email"
             className={styles["form-control"]}
+            onChange={(evt) => setEmail(evt.target.value)}
             required
           />
         </div>
@@ -69,6 +107,7 @@ export const RegistrationPage = () => {
             type="password"
             placeholder="Пароль"
             className={styles["form-control"]}
+            onChange={(evt) => setPassword(evt.target.value)}
             required
           />
         </div>
@@ -77,6 +116,7 @@ export const RegistrationPage = () => {
             type="password"
             placeholder="Подтвердите пароль"
             className={styles["form-control"]}
+            onChange={(evt) => setPasswordValidate(evt.target.value)}
             required
           />
         </div>
@@ -85,10 +125,10 @@ export const RegistrationPage = () => {
           <label className="text-muted ms-2">Запомнить меня</label>
         </div>
         <div className="d-flex justify-content-center gap-3">
-          <Link to="/login">
+          <Link to={ApplicationRoutes.LoginPage}>
             <Button variant="secondary">Войти</Button>
           </Link>
-          <Button variant="primary">Зарегистрироваться</Button>
+          <Button variant="primary" onClick={registerUser}>Зарегистрироваться</Button>
         </div>
       </div>
     </div>

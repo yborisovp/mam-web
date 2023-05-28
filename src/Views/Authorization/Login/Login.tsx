@@ -1,11 +1,34 @@
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle, faVk, faYandex } from "@fortawesome/free-brands-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import styles from "./login.module.scss";
+import { useState } from "react";
+import { UserClient } from "../../../API/User/UserApi";
+import { UserService } from "../../../Services/UserService";
+import { LoginUserModel } from "../../../Models/User/LoginUser";
+import { ApplicationRoutes } from "../../../RoutesConstants";
 
 export const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate()
+  const loginUser = async () => {
+    const userCred: LoginUserModel = {
+      $type: "PasswordLoginDto",
+      email: email,
+      password: password, 
+    }
+    const state = await UserService.LoginUser(userCred);
+    if (state) {
+      navigate(ApplicationRoutes.HomePage)
+    }
+    else {
+      alert("User cannot be login")
+    }
+  }
+
   return (
     <div className={styles.card}>
       <div className="card-head bg-white d-flex flex-column space-around">
@@ -31,6 +54,7 @@ export const LoginPage = () => {
             type="email"
             placeholder="Email"
             className={styles["form-control"]}
+            onChange={(evt) => setEmail(evt.target.value)}
             required
           />
         </div>
@@ -39,6 +63,7 @@ export const LoginPage = () => {
             type="password"
             placeholder="Пароль"
             className={styles["form-control"]}
+            onChange={(evt) => setPassword(evt.target.value)}
             required
           />
         </div>
@@ -47,10 +72,12 @@ export const LoginPage = () => {
           <label className="text-muted ms-2">Запомнить меня</label>
         </div>
         <div className="d-flex justify-content-center gap-3">
-          <Link to="/registration">
+          <Link to={ApplicationRoutes.RegisterPage}>
             <Button variant="secondary">Зарегистрироваться</Button>
           </Link>
-          <Button variant="primary">Войти</Button>
+          <Button variant="primary" onClick={loginUser}>
+            Войти
+          </Button>
         </div>
       </div>
     </div>
