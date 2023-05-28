@@ -66,7 +66,7 @@ function HomePage() {
         <Dropdown.Menu className="w-100">
           {options.map((option) => (
             <Dropdown.Item
-              key={option.item}
+              key={option.item + Math.random()}
               active={option.isSelected === true}
             >
               {option.item}
@@ -144,7 +144,7 @@ function HomePage() {
         </div>
         <div className="d-flex flex-column flex-md-row gap-3 gap-md-0 ms-4 me-4 ms-md-0 me-md-0 justify-content-between mb-5">
           {[...Array(4)].map((x, i) => (
-            <BannerItemView key={i} bannerItem={bannerItem} />
+            <BannerItemView key={i + Math.random() + "nvve"} bannerItem={bannerItem} />
           ))}
         </div>
       </div>
@@ -155,12 +155,12 @@ function HomePage() {
         <div>
           {[...Array(2)].map((x, i) => (
             <div
-              key={i + x}
+              key={i + x + Math.random() + "nw"}
               className="d-flex flex-column gap-2 gap-md-0 flex-md-row ms-2 me-5 ms-md-0 me-md-0 justify-content-between mb-4"
             >
               {[...Array(5)].map((y, j) => (
-                <div onClick={() => handleClick(i + 1 + "." + (j + 1))}>
-                  <SellItemView key={j} sellItem={sellItem} />
+                <div key={j + Math.random() + "hgiw"} onClick={() => handleClick(i + 1 + "." + (j + 1))}>
+                  <SellItemView  sellItem={sellItem} />
                 </div>
               ))}
             </div>

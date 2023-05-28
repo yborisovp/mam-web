@@ -22,6 +22,7 @@ export const SellItemView = ({ sellItem }: SellItemProps) => {
             {sellItem.attributes.slice(0, 4).map((att, i) => {
               let a = (
                 <div
+                  key={i + "vvw" + Math.random()}
                   className={styles["sell-item__item--attributes__separator"]}
                 ></div>
               );
@@ -29,7 +30,7 @@ export const SellItemView = ({ sellItem }: SellItemProps) => {
                 a = <></>;
               }
               return (
-                <Fragment key={i}>
+                <Fragment key={i + Math.random() + 's' + "nvjek"}>
                   <div className={styles["sell-item__item--attributes__item"]}>
                     {""}
                   </div>
