@@ -64,7 +64,7 @@ function Header() {
       <nav className="navbar navbar-dark navbar-expand-md navigation-clean-search">
         <div className="container">
           <div onClick={() => navigate(ApplicationRoutes.HomePage)} className="navbar-brand">
-            Мой Мир Авто
+            Мой Мир Авто scddghghghhghvg6767676tttt56
           </div>
 
           <button
