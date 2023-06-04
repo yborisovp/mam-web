@@ -1,0 +1,26 @@
+.popup-overlay {
+   
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.popup-content {
+    background-color: white;
+    width: 50vw;
+    height: 90vh;
+    padding: 10px;
+    overflow: auto;
+}
+
+.popup-content > .close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: 4px;
+    top: 4px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+  }

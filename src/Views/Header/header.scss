@@ -3,7 +3,10 @@
 .header-blue {
     font-family: 'Inter-Medium', sans-serif;
     color: $black !important;
-
+    max-width: 1200px;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
     .navbar {
         background: transparent;
         padding-top: .75rem;

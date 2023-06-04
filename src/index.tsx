@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -10,14 +10,15 @@ import HeaderLayout from "./Views/HeaderLayout";
 import "./scss/bootstrap-custom.scss";
 import "./scss/custom-bootstrap-buttons.scss";
 import "./scss/default.scss";
-import "./css/reset.css";
 import "./index.scss";
 import { ItemView } from "./Views/Item/ItemView";
 import { CreateEditView } from "./Views/CreateEditView/CreateEditView";
-import { UserPageView } from './Views/UserPage/UserPageView';
-import { SearchView } from './Views/SearchView/SearchView';
-import { ChatView } from './Views/Chat/ChatView';
-import { ApplicationRoutes } from './RoutesConstants';
+import { UserPageView } from "./Views/UserPage/UserPageView";
+import { SearchView } from "./Views/SearchView/SearchView";
+import { ChatView } from "./Views/Chat/ChatView";
+import { ApplicationRoutes } from "./RoutesConstants";
+import { AdminPanel } from "./Views/AdminPanel/AdminPanel";
+import NotFound from "./Views/NotFound/NotFoundView";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -26,17 +27,31 @@ root.render(
   <BrowserRouter>
     <React.StrictMode>
       <Routes>
+        <Route path="*" element={<NotFound />}/>
         <Route element={<HeaderLayout />}>
           <Route path={ApplicationRoutes.HomePage} element={<HomePage />} />
-          <Route path={ApplicationRoutes.ItemRoute}  element={<ItemView />} />
-          <Route path={ApplicationRoutes.CreateRoute}  element={<CreateEditView edit={false} />} />
-          <Route path={ApplicationRoutes.EditRoute}  element={<CreateEditView edit={true} />} />
-          <Route path={ApplicationRoutes.SearchRoute}  element={<SearchView />} />
-          <Route path={ApplicationRoutes.ChatRoute}  element={<ChatView/>}/>
-          <Route path={ApplicationRoutes.MePage}  element={<UserPageView/>}/>
+          <Route path={ApplicationRoutes.ItemRoute} element={<ItemView />} />
+          <Route
+            path={ApplicationRoutes.CreateRoute}
+            element={<CreateEditView edit={false} />}
+          />
+          <Route
+            path={ApplicationRoutes.EditRoute}
+            element={<CreateEditView edit={true} />}
+          />
+          <Route
+            path={ApplicationRoutes.SearchRoute}
+            element={<SearchView />}
+          />
+          <Route path={ApplicationRoutes.ChatRoute} element={<ChatView />} />
+          <Route path={ApplicationRoutes.MePage} element={<UserPageView />} />
+          <Route path={ApplicationRoutes.AdminPanel} element={<AdminPanel />} />
         </Route>
 
-        <Route path={ApplicationRoutes.LoginPage} element={<AuthorizationPage isLogin={true} />} />
+        <Route
+          path={ApplicationRoutes.LoginPage}
+          element={<AuthorizationPage isLogin={true} />}
+        />
         <Route
           path={ApplicationRoutes.RegisterPage}
           element={<AuthorizationPage isLogin={false} />}

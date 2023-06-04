@@ -4,6 +4,7 @@ import { CreateSellItemModel } from "../../Models/SellItem/CreateSellItem";
 import { useNavigate } from "react-router-dom";
 import { AttributesModel } from "../../Models/SellItem/Attributes";
 import { AllowedCarParameters } from "../../Models/SellItem/AllowedCarParameters";
+import "./createEdit.scss";
 
 export type CreateEditViewProps = {
   edit: boolean;
@@ -123,18 +124,26 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
   };
   return (
     <div className="container">
-      <div className="container mt-4 mb-3 card-body">
+      <div className="container mt-4 mb-3 card-body width-m">
         <div className="card p-3 pt-4 ps-5 mb-3">
           <p className="h2 mb-5">Подать объявление о продаже автомобиля</p>
-          <div className="row">
-            <p className="h6 col-3 m-0 pt-2">Раздел</p>
-            <select onChange={handleAttributeModelChange("Chapter")}>
-              <option hidden value="DEFAULT">
-                Выберите вид автомобиля
-              </option>
-              <option>Новый</option>
-              <option>Б/У</option>
-            </select>
+          
+
+          <div className="row mt-0">
+            <p className="h6 col-3 m-0 pt-2">Вид автомобиля</p>
+            <div className="col-5">
+              <select
+                className="form-select input-form"
+                onChange={handleAttributeModelChange("Chapter")}
+              >
+                <option hidden value="DEFAULT">
+                  Выберите вид автомобиля
+                </option>
+                <option>First</option>
+                <option>Second</option>
+                <option>Third</option>
+              </select>
+            </div>
           </div>
 
           <div className="row mt-4">
@@ -374,7 +383,7 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
             onChange={handleCreateModelChange("description")}
           ></textarea>
 
-          <p className="h6 col-3 m-0 mt-4 pt-2 mb-3">Выберите фотографии</p>
+          <p className="h6 col-3 m-0 mt-2 pt-2 mb-3">Выберите фотографии</p>
           <div className="me-4">
             <input
               className="form-control"
@@ -384,7 +393,7 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
             />
           </div>
 
-          <Button onClick={handleSubmit}>Отправить</Button>
+          <Button className="mt-4 me-4 mb-3" onClick={handleSubmit}>Отправить</Button>
         </div>
       </div>
     </div>

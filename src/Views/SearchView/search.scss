@@ -1,3 +1,109 @@
+@import '../../scss/colors.scss';
+
+@import '../../fonts/fonts.scss';
+
+.body {
+    font-family: Inter-Regular;
+
+   
+}
+
+.searchContainer {
+    border-radius: 8px;
+    background-color: #003D9B;
+    padding-top: 20vh;
+    padding-bottom: 20vh;
+
+   .search-text {
+        font-family: Inter-Bold;
+        color: $white;
+
+        h2 {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 52px;
+        }
+    }
+
+    .search-toolbox {
+        
+        .item {
+            background-color: $white;
+            border-right: 1px solid $gray;
+
+            padding: 0;
+
+
+            border-radius: 0;
+            .type {
+                font-family: Inter-Regular;
+                font-size: 10px;
+            }
+
+            .btn {
+               
+                font-family: Inter-Medium;
+                font-size: 14px;
+                min-width: 150px;
+                text-align: justify;
+                vertical-align: top;
+                height: 100%;
+                background-color: white;
+                border: 0;
+            }
+
+        }
+
+
+
+        .search {
+            height: 54px;
+            border: 0;
+            background-color: $blue;
+            color: $white;
+            border-radius: 0 8px 8px 0;
+        }
+    }
+
+    .dropdown-toggle::after{
+        float: right;
+    }
+
+    
+}
+
+div:has(.col-6) .first {
+    border-radius: 4px 0 0 4px; 
+}
+
+.first {
+    border-radius:  8px 0 0 8px !important; 
+}
+
+
+.recommend {
+
+    .text {
+        font-family: 'Inter-SemiBold';
+        font-size: 28px;
+        color: $black;
+    }
+}
+
+.cars {
+
+    .text {
+        font-family: 'Inter-SemiBold';
+        font-size: 28px;
+        color: $black;
+    }
+
+}
+
+
 .active {
     border       : none;
     border-bottom: 0px;
@@ -18,36 +124,8 @@
     width: 100%;
 }
 
-.accordion-button:focus {
-    box-shadow: none;
-}
 
-.accordion-button:not(.collapsed) {
-    box-shadow      : none;
-    background-color: white;
-    color           : dimgrey;
-}
 
-@import url("https://use.fontawesome.com/releases/v5.15.0/css/all.css");
-
-.accordion-button:not(.collapsed)::after {
-    content         : "\f067";
-    font-family     : "Font Awesome 5 Free";
-    color           : dimgrey;
-    background-image: none;
-}
-
-.accordion-button.collapsed::after {
-    /* content: "\f057";  x*/
-    /* content: "\f058";  check*/
-    /* "\f067"  plus*/
-    /* "\f068"  minus*/
-    content         : "\f067";
-    color           : dimgrey;
-    font-weight     : 400;
-    font-family     : "Font Awesome 5 Free";
-    background-image: none;
-}
 
 .accordion {
     --bs-accordion-btn-icon-transform: none;
@@ -67,10 +145,19 @@
 }
 
 .text-color-demigray {
-    color: dimgray;
+    color: dimgray !important;
 }
 
 .desc {
     text-align: justify;
     color     : #353839;
+}
+
+.accordion-button{
+    padding: 0;
+    padding-left: 20px;
+}
+
+.accordion-body-s{
+ padding-left: 20px;
 }
