@@ -158,7 +158,7 @@ function HomePage() {
               key={i + x + Math.random() + "nw"}
               className="d-flex flex-column gap-2 gap-md-0 flex-md-row ms-2 me-5 ms-md-0 me-md-0 justify-content-between mb-4"
             >
-              {[...Array(5)].map((y, j) => (
+              {[...Array(4)].map((y, j) => (
                 <div key={j + Math.random() + "hgiw"} onClick={() => handleClick(i + 1 + "." + (j + 1))}>
                   <SellItemView  sellItem={sellItem} />
                 </div>

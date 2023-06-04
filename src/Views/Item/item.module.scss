@@ -37,7 +37,7 @@ body {
         max-width: 1180px;
 
         .img-container {
-            height: 680px;
+            height: 340px;
             min-height: 120px;
             display: flex;
             flex-direction: row;
@@ -51,11 +51,11 @@ body {
 
         .item-title {
             font-family: 'Inter-Bold';
-            font-size: 20px;
+            font-size: 24px;
         }
 
         .card-main{
-            border: none
+            border: none;
         }
         .card-info{
             background-color: gainsboro; 
@@ -64,11 +64,16 @@ body {
 
         .text-main{
             text-align: justify; 
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .sticky{
-            top: 10px
+            top: 20px;
         }
     }
+}
+
+.img-prof{
+    height: 70px;
+    width: 70px;;
 }

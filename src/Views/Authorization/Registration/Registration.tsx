@@ -4,17 +4,24 @@ import {
   faVk,
   faYandex,
 } from "@fortawesome/free-brands-svg-icons";
-import { Button } from "react-bootstrap";
+import { Button, ButtonGroup} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useNavigate } from "react-router-dom";
-
+import "./modal.css"
 import styles from "./registration.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserService } from "../../../Services/UserService";
 import { RegisterUserModel } from "../../../Models/User/RegisterUser";
 import { ApplicationRoutes } from "../../../RoutesConstants";
+import { MDBSwitch } from "mdb-react-ui-kit";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import Popup from "reactjs-popup";
 
 export const RegistrationPage = () => {
+  const [isUserAgrChecked, setUserAgrChecked] = useState(false);
+  const [modalIsOpen, setModalState] = useState(false);
+  const [remember, setRemember] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordValidate, setPasswordValidate] = useState("");
@@ -23,9 +30,10 @@ export const RegistrationPage = () => {
   const [secondName, setSecondName] = useState("");
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
+
   const registerUser = () => {
     if (password !== passwordValidate) {
-      alert("Пароли должны совпадать")
+      alert("Пароли должны совпадать");
     }
     const registerUser: RegisterUserModel = {
       $type: "PasswordRegistration",
@@ -33,17 +41,35 @@ export const RegistrationPage = () => {
       secondName: secondName,
       phone: phone,
       password: password,
-      email: email
-    }
+      email: email,
+    };
 
     const state = UserService.RegisterUser(registerUser);
     if (state) {
-      navigate(ApplicationRoutes.HomePage)
+      navigate(ApplicationRoutes.HomePage);
+    } else {
+      alert("User cannot be created");
     }
-    else {
-      alert("User cannot be created")
+  };
+
+  const [useArgeement, setUserAgg] = useState("");
+
+  const getUserAgreementFile = async () => {
+    // prefix public dir files with `process.env.PUBLIC_URL`
+    // see https://create-react-app.dev/docs/using-the-public-folder/
+    const res = await fetch(`/UserAgreement.md`);
+  
+    if (!res.ok) {
+      throw res;
     }
-  }
+    const text = await res.text();
+    setUserAgg(text);
+  };
+
+
+  useEffect(() => {
+    getUserAgreementFile();
+  }, [useArgeement])
 
   return (
     <div className={styles.card}>
@@ -124,13 +150,41 @@ export const RegistrationPage = () => {
           <input type="checkbox" name="remember" id="remember" />
           <label className="text-muted ms-2">Запомнить меня</label>
         </div>
+        <ButtonGroup className="mb-2">
+          <MDBSwitch
+            value="isUserArgChecked"
+            label={
+              <div>
+                Согласие с{" "}
+                <div className={styles["user-agreement"]} onClick={() => setModalState(true)}>
+                  пользовательским соглашением
+                </div>
+              </div>
+            }
+            onClick={() => setUserAgrChecked(!isUserAgrChecked)}
+          />
+        </ButtonGroup>
         <div className="d-flex justify-content-center gap-3">
           <Link to={ApplicationRoutes.LoginPage}>
             <Button variant="secondary">Войти</Button>
           </Link>
-          <Button variant="primary" onClick={registerUser}>Зарегистрироваться</Button>
+          <Button variant="primary" onClick={registerUser}>
+            Зарегистрироваться
+          </Button>
         </div>
       </div>
+
+      <Popup
+      modal
+      nested
+        open={modalIsOpen}
+        onClose={() => setModalState(false)}
+      >
+         <button className="close" onClick={() => setModalState(false)}>
+          &times;
+        </button>
+        <ReactMarkdown children={useArgeement}/>
+      </Popup>
     </div>
   );
 };
