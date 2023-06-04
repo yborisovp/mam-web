@@ -17,7 +17,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "public"),
     },
-    disableHostCheck: true,
+    allowedHosts: "all",
     historyApiFallback: true,
     liveReload: true,
     hot: false,
