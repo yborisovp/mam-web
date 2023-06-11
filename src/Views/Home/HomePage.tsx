@@ -10,167 +10,261 @@ import { IBannerItem } from "../../Models/BannerItem";
 import { BannerItemView } from "../BannerItem/BannerItemView";
 
 import styles from "./home.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ItemView } from "../Item/ItemView";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { SearchModel } from "../../Models/Search/SearchModel";
+import { SearchItemService } from "../../Services/SearchItemService";
+import { ApplicationRoutes } from "../../RoutesConstants";
 
 function HomePage() {
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const { loading, error, list } = useFetch(query, page);
-  const loader = useRef(null);
+  const [items, setItems] = useState<SellItemModel[]>();
+    const { state } = useLocation();
+    const navigate = useNavigate();
 
-  const handleChange = (e: any) => {
-    setQuery(e.target.value);
-  };
-
-  const handleObserver = useCallback((entries: any) => {
-    const target = entries[0];
-    if (target.isIntersecting) {
-      setPage((prev) => prev + 1);
+    const getData = async (params: SearchModel) => {
+        const result = await SearchItemService.SearchByParams(params);
+        setItems(result);
     }
-  }, []);
 
-  useEffect(() => {
-    const option = {
-      root: null,
-      rootMargin: "20px",
-      threshold: 0,
-    };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-  }, [handleObserver]);
 
-  const customDropdown = (
-    title: string,
-    options: IDropdownItem[],
-    isFirst?: boolean
-  ) => {
-    let dropdownClass =
-      styles["searchContainer__search-toolbox--item"] + " col";
-    if (isFirst) {
-      dropdownClass =
-        styles["searchContainer__search-toolbox--item"] + " col first";
-    }
-    return (
-      <Dropdown className={dropdownClass}>
-        <Dropdown.Toggle className="w-100 h-100" variant="light">
-          <div
-            className={
-              styles["searchContainer__search-toolbox--item__type"] + " mb-2"
-            }
-          >
-            {title}
-          </div>
-          <>{options.find((i) => i.isSelected === true)?.item}</>
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="w-100">
-          {options.map((option) => (
-            <Dropdown.Item
-              key={option.item + Math.random()}
-              active={option.isSelected === true}
-            >
-              {option.item}
-            </Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-  };
-
-  let item1: IDropdownItem = {
-    item: "Б/У",
-    isSelected: true,
-  };
-  let item2: IDropdownItem = {
-    item: "Новые",
-    isSelected: false,
-  };
-
-  let sellItem: SellItemModel = {
-    id: "",
-    createdAt: new Date(),
-    lasUpdatedAt: new Date(),
-    title: "Porsche Panamera, 2023",
-    description: "5 223 км",
-    price: "15 000 000 Р",
-    body: "",
-    postedAt: new Date(),
-    files: [],
-    attributes: []
-  };
-
-  let bannerItem: IBannerItem = {
-    title: "Автомобили до 500 000 Р",
-    searchResult: "100 000 автомобилей",
-    imgUrl:
-      "https://cdn.luxe.digital/media/20230105073805/fastest-cars-world-2023-list-ranking-luxe-digital.jpg",
-  };
-  const navigate = useNavigate();
-  const handleClick = (item: string) => {
-    navigate("/item/");
-  };
-  return (
-    <div className={styles.body + " container-xl"}>
-      <div
-        className={
-          styles.searchContainer +
-          " d-none d-md-block w-100 container-xxl ps-5 pe-5 mb-xxl-4"
+    const customDropdown = (
+        title: string,
+        options: IDropdownItem[],
+        isFirst?: boolean
+    ) => {
+        let dropdownClass =
+            "searchContainer search-toolbox item col-6 col-lg col-md-6 col-xl";
+        if (isFirst) {
+            dropdownClass =
+                "searchContainer search-toolbox item col-6 col-lg col-md-6 col-xl first";
         }
-      >
-        <div className={styles["searchContainer__search-text"] + " mb-5"}>
-          <h2>Ваш новый автомобиль</h2>
-          <h1>Найдется здесь</h1>
-        </div>
-        <div
-          className={styles["searchContainer__search-toolbox"] + " row d-flex"}
-        >
-          {customDropdown("Тип", [item1, item2], true)}
-          {customDropdown("Марка", [item1, item2])}
-          {customDropdown("Тип", [item1, item2])}
-          {customDropdown("Тип", [item1, item2])}
+        return (
+            <Dropdown className={dropdownClass}>
+                <Dropdown.Toggle className="w-100 h-100" variant="light">
+                    <div className="">
+                        <div className="text-color-demigray">{title} </div>
+                    </div>
+                    <>{options.find((i) => i.isSelected === true)?.item}</>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="w-100">
+                    {options.map((option) => (
+                        <Dropdown.Item
+                            key={option.item + Math.random()}
+                            active={option.isSelected === true}
+                        >
+                            {option.item}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
 
-          <button
-            className={
-              styles["searchContainer__search-toolbox--search"] + " col"
-            }
-          >
-            Найти
-          </button>
-        </div>
-      </div>
-      <div className="recommend">
-        <div className={styles.recommend__text + " mb-3"}>
-          Популярно в вашем регионе
-        </div>
-        <div className="d-flex flex-column flex-md-row gap-3 gap-md-0 ms-4 me-4 ms-md-0 me-md-0 justify-content-between mb-5">
-          {[...Array(4)].map((x, i) => (
-            <BannerItemView key={i + Math.random() + "nvve"} bannerItem={bannerItem} />
-          ))}
-        </div>
-      </div>
-      <div className="cars">
-        <div className={styles["cars__text"] + " mb-3"}>
-          Посмотрите последние предложения
-        </div>
-        <div>
-          {[...Array(2)].map((x, i) => (
-            <div
-              key={i + x + Math.random() + "nw"}
-              className="d-flex flex-column gap-2 gap-md-0 flex-md-row ms-2 me-5 ms-md-0 me-md-0 justify-content-between mb-4"
-            >
-              {[...Array(4)].map((y, j) => (
-                <div key={j + Math.random() + "hgiw"} onClick={() => handleClick(i + 1 + "." + (j + 1))}>
-                  <SellItemView  sellItem={sellItem} />
-                </div>
-              ))}
+    useEffect(() => {
+        console.log(state)
+        const params: SearchModel = state;
+
+
+        getData(params).catch(console.error);
+    }, [state]);
+
+
+    let item1: IDropdownItem = {
+        item: "Б/У",
+        isSelected: true,
+    };
+    let item2: IDropdownItem = {
+        item: "Новые",
+        isSelected: false,
+    };
+
+    let item3: IDropdownItem = {
+        item: "Porshe",
+        isSelected: true,
+    };
+    let item4: IDropdownItem = {
+        item: "BMW",
+        isSelected: false,
+    };
+    let item5: IDropdownItem = {
+        item: "Lada",
+        isSelected: true,
+    };
+    let item6: IDropdownItem = {
+        item: "Седан",
+        isSelected: false,
+    };
+    let item7: IDropdownItem = {
+        item: "Купе",
+        isSelected: false,
+    };
+    
+  return (
+    <div className="container container-main">
+
+    <div className="body p-0">
+        <div
+            className="searchContainer w-100 ps-5 pe-5 mb-3  ms-0 me-0"
+        >
+            <div className="searchContainer search-text p-0 mb-0 mb-md-5 mb-lg-5 mb-5">
+                <h2>Ваш новый автомобиль</h2>
+                <h1>Найдется здесь</h1>
             </div>
-          ))}
+            <div
+                className="searchContainer search-toolbox row d-flex p-0"
+            >
+                {customDropdown("Тип", [item1, item2], true)}
+                {customDropdown("Марка", [item3, item4, item5])}
+                {customDropdown("Тип", [item7, item6])}
+                <button
+                    className="searchContainer search-toolbox search col p-0"
+
+                >
+                    Найти
+                </button>
+            </div>
         </div>
-      </div>
-      <a className="show-more d-block w-100 text-center" href=".">
-        Еще
-      </a>
     </div>
+    <div className="row p-2">
+        {/* <div className="col-12 d-inline d-sm-inline d-md-none d-lg-none d-xl-none p-0 container">
+            <div className="d-flex mt-2 text-color-demigray">
+                <i className="fa-solid fa-filter me-2"></i>
+                Добавить фильтр
+            </div>
+            <hr className="mt-1 mb-1" />
+            <Accordion>
+                <Accordion.Item eventKey="0">
+                    <Accordion.Header className="p-0 text-color-demigray pb-2">
+                        Тип машины
+                    </Accordion.Header>
+                    <Accordion.Body className="pt-1 accordion-body-s text-color-demigray">
+                        <Accordion.Collapse className="pt-1" eventKey="0">
+                            <Form.Check
+                                label="Новая"
+                            />
+                        </Accordion.Collapse>
+                        <Accordion.Collapse className="pt-1" eventKey="0">
+                            <Form.Check
+                                label="Б/У"
+                            />
+                        </Accordion.Collapse>
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                    <Accordion.Header className="p-0 text-color-demigray">
+                        Тип машины
+                    </Accordion.Header>
+                    <Accordion.Body className="pt-1 accordion-body-s text-color-demigray">
+                        <Accordion.Collapse className="pt-1" eventKey="1">
+                            <Form.Check
+                                label="Новая"
+                            />
+                        </Accordion.Collapse>
+                        <Accordion.Collapse className="pt-1" eventKey="1">
+                            <Form.Check
+                                label="Б/У"
+                            />
+                        </Accordion.Collapse>
+                    </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
+        </div> */}
+
+
+        {/* <div className="col-10 p-0">
+            <div className="container d-flex flex-column gap-2 pt-2">
+                {items?.map((i) => (
+                    <div className="card p-4 " key={i.id}>
+                        <div className="row">
+                            <div className="col-12 col-sm-12 col-md-12 col-lg-5">
+                                <a href="Individual-post.html">
+                                    <img
+                                        className="rounded object-fit-cover img-h"
+                                        src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/car-photography/car-photography_fb-img_1200x800.jpg"
+                                    />
+                                </a>
+                            </div>
+
+                            <div className="col-12 col-sm-12 col-md-12 col-lg-7">
+                                <div className="row">
+                                    <p className="h4 col-6">{i.title}</p>
+                                    <p className="h3 col-5 text-all-end">{i.price} ₽</p>
+                                    <p className="h6 pt-3 text-color-demigray">БУ</p>
+                                    <div className="col-12pt-1 crop-text-1 desc">
+                                        {i.description}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div> */}
+
+        <div className="col-12 col-sm-12 col-md-6 col-ld-12 col-xl-12 p-0 cursor-pointer" onClick={() => navigate(ApplicationRoutes.ItemRoute)}>
+            <div className="container d-flex flex-column gap-2 p-1 pt-2">
+                <div className="card p-4 border mb-2">
+                    <div className="row">
+                        <div className="col-12 col-sm-12 col-md-12 col-lg-5">
+                                <img
+                                    className="rounded img-h2 w-100 h-100"
+                                    src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/car-photography/car-photography_fb-img_1200x800.jpg"
+                                />
+                        </div>
+
+                        <div className="col-12 col-sm-12 col-md-12 col-lg-7">
+                            <div className="row mt-md-3 mt-3 mt-sm-3 mt-lg-0 mt-xl-0">
+                                <p className="h4 col-6 ">Audi Q8</p>
+                                <p className="h3 col-6 text-all-end">4500000 ₽</p>
+                            </div>
+                            <p className="h6 pt-3 text-color-demigray">БУ</p>
+                            <div className="pt-1 crop-text-1 desc text-f">
+                                <ReactMarkdown> 
+                                Audi Q8 - это высококлассный кроссовер, который воплощает в себе исключительный дизайн, передовые технологии и высокий уровень комфорта. Этот автомобиль в отличном состоянии с пробегом всего 30 тысяч километров и полностью готов к новым приключениям на дорогах.
+                                В Audi Q8 установлен мощный двигатель, который обеспечивает плавную и динамичную езду, а также надежную коробку передач, которая позволяет легко переключаться на любую скорость. Этот автомобиль также оснащен передовыми системами привода и безопасности, делая его одним из самых безопасных и надежных кроссоверов на дорогах.
+                            
+                                </ReactMarkdown>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div className="col-12 col-sm-12 col-md-6 col-ld-12 col-xl-12 p-0 cursor-pointer" onClick={() => navigate(ApplicationRoutes.ItemRoute)}>
+            <div className="container d-flex flex-column gap-2 p-0 p-sm-0 p-md-2 p-lg-2 pxl-2 pt-2">
+                <div className="card p-4 border mb-2">
+                    <div className="row">
+                        <div className="col-12 col-sm-12 col-md-12 col-lg-5">
+                            <a href="Individual-post.html">
+                                <img
+                                    className="rounded img-h2 w-100 h-100"
+                                    src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/car-photography/car-photography_fb-img_1200x800.jpg"
+                                />
+                            </a>
+                        </div>
+
+                        <div className="col-12 col-sm-12 col-md-12 col-lg-7">
+                            <div className="row mt-md-3 mt-3 mt-sm-3 mt-lg-0 mt-xl-0">
+                                <p className="h4 col-6 ">Audi Q3</p>
+                                <p className="h3 col-6 text-all-end">4500000 ₽</p>
+                            </div>
+                            <p className="h6 pt-3 text-color-demigray">БУ</p>
+                            <div className="pt-1 crop-text-1 desc text-f">
+                            <ReactMarkdown> 
+                            Audi Q3 - это элегантный, компактный и универсальный кроссовер, который может стать идеальным спутником как в городе, так и за его пределами. Этот конкретный Audi Q3 находится в отличном состоянии, имеет пробег всего 30 тысяч километров и готов к новым приключениям на дорогах.
+
+Audi Q3 обладает мощным и экономичным двигателем, который обеспечивает плавную и комфортную езду на любой дороге. Кроме того, этот кроссовер оснащен передовыми системами безопасности, такими как системы контроля стабильности и торможения, а также множеством подушек безопасности, делая его одним из самых безопасных автомобилей в своем классе.
+                                </ReactMarkdown></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
   );
 }
 

@@ -32,20 +32,12 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
     };
   };
 
-  const handleAttributeModelChange = <
-    T,
-    K extends keyof typeof AllowedCarParameters
-  >(
-    formStateItem: K
-  ) => {
-    return (
-      e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>
-    ) => {
+  const handleAttributeModelChange = <T,K extends keyof typeof AllowedCarParameters>(formStateItem: K) => {
+    return (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
       const newItem: AttributesModel = {
         key: formStateItem,
         value: e.target.value as string,
       };
-
       // setAttributes(attributes.map(i => i.key === formStateItem ? {...i, value: e.target.value as string}: item));
       if (attributes.length === 0) {
         const arr = attributes;
@@ -139,9 +131,9 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
                 <option hidden value="DEFAULT">
                   Выберите вид автомобиля
                 </option>
-                <option>First</option>
-                <option>Second</option>
-                <option>Third</option>
+                <option>Седан</option>
+                <option>Кроссовер</option>
+                <option>Купе</option>
               </select>
             </div>
           </div>
@@ -156,9 +148,9 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
                 <option hidden value="DEFAULT">
                   Выберите марку
                 </option>
-                <option>First</option>
-                <option>Second</option>
-                <option>Third</option>
+                <option>BMV</option>
+                <option>Mersedes</option>
+                <option>Porche</option>
               </select>
             </div>
           </div>
@@ -173,9 +165,9 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
                 <option hidden value="DEFAULT">
                   Выберите модель
                 </option>
-                <option>First</option>
-                <option>Second</option>
-                <option>Third</option>
+                <option>100</option>
+                <option>300</option>
+                <option>500</option>
               </select>
             </div>
           </div>
@@ -276,9 +268,9 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
                 <option hidden value="DEFAULT">
                   Выберите тип топлива
                 </option>
-                <option>First</option>
-                <option>Second</option>
-                <option>Third</option>
+                <option>92</option>
+                <option>95</option>
+                <option>Дизель</option>
               </select>
             </div>
           </div>
@@ -332,7 +324,7 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
               <div className="mb-3">
                 <input
                   type="text"
-                  className="form-control input-form"
+                  className="form-control input-form error"
                   id="exampleDropdownFormEmail1"
                   placeholder="л"
                 />

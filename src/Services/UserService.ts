@@ -1,32 +1,52 @@
+import { AxiosError } from "axios";
 import { UserClient } from "../API/User/UserApi";
+import { ApiResponseModel } from "../Models/ApiResponseModel";
 import { UserModel } from "../Models/User/IUser";
 import { LoginUserModel } from "../Models/User/LoginUser";
 import { RegisterUserModel } from "../Models/User/RegisterUser";
+import { CookiesConstants } from "../Views/CookiesConstants";
+import { CookieService } from "./CookieDecoderService";
+import {DateTime} from "ts-luxon";
 
 export abstract class UserService
 {
-    public static async LoginUser(loginUser: LoginUserModel): Promise<boolean> {
-        let state = false;
-        const response = await UserClient.post<UserModel>("/login", loginUser);
-        if (response.data)
-        {
-            localStorage.setItem("user", JSON.stringify(response.data))
-            state = true;
-        }
-
-        return state;
+    private static isError(object: any): object is ApiResponseModel {
+        return 'status' in object;
     }
 
-    public static RegisterUser(registerUser: RegisterUserModel): boolean {
-        let state = false;
-        UserClient.post<UserModel>("/register", registerUser).then((res) => {
-            localStorage.setItem("user", JSON.stringify(res.data))
-            state = true;
+    public static async LoginUser(loginUser: LoginUserModel): Promise<string | undefined> {
+        
+        let error: undefined | string = undefined;
+        await UserClient.post<UserModel>("/login", loginUser).then((res) => {
+            if (UserService.isError(res)){
+                error = res.title;
+            }
+            const expirationDate = DateTime.local().plus({minutes: CookiesConstants.UserExpirationTimeInMinutes});
+            CookieService.SetCookie(CookiesConstants.UserCookie, res.data, {expires: expirationDate.toJSDate()})
+            
+        })
+        .catch((e: AxiosError<ApiResponseModel>) => {
+            error = e.response?.data.title;
+        })
+
+        return error;
+    }
+
+    public static async RegisterUser(registerUser: RegisterUserModel): Promise<string | undefined> {
+        let error: undefined | string = undefined;
+        await UserClient.post<UserModel>("/register", registerUser).then((res) => {
+            if (UserService.isError(res)){
+                error = res.title;
+            }
+
+            const expirationDate = DateTime.local().plus({minutes: CookiesConstants.UserExpirationTimeInMinutes});
+            CookieService.SetCookie(CookiesConstants.UserCookie, res.data, {expires: expirationDate.toJSDate()})
+        
           })
-          .catch((e) => {
-            console.log(e);
+          .catch((e: ApiResponseModel) => {
+            error = e.title;
           });
 
-        return state;
+        return error;
     }
 }

@@ -29,8 +29,12 @@
                 border: none;
                 width: 100%;
             }
-
+            .error {
+                border-color: red;
+            }
             input {
+                
+
                 &:focus {
                     outline-width: 0;
                     &::placeholder {

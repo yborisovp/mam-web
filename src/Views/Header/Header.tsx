@@ -1,23 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./header.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Navbar } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { UserModel } from "../../Models/User/IUser";
 import { SearchModel } from "../../Models/Search/SearchModel";
 import { ApplicationRoutes } from "../../RoutesConstants";
+import { CookieService } from "../../Services/CookieDecoderService";
+import { CookiesConstants } from "../CookiesConstants";
 
 function Header() {
     const [searchTitle, setSearchTitle] = useState("");
     const [user, setUser] = useState<UserModel>();
-
     const navigate = useNavigate();
 
     useEffect(() => {
-        const result = localStorage.getItem("user");
-        if (result != null) {
-            const user: UserModel = JSON.parse(result);
-            setUser(user);
+        if (CookieService.CheckCookie(CookiesConstants.UserCookie)) {
+            const newUser = CookieService.DecodeCookie<UserModel>(CookiesConstants.UserCookie);
+            setUser(newUser);
         }
     }, []);
 
@@ -36,7 +35,7 @@ function Header() {
 
 
     const nav = () => {
-        /* if (user !== null) {
+        if (user !== null) {
             return (
                 <>
                     <div className="d-flex gap-2">
@@ -45,7 +44,7 @@ function Header() {
                     </div>
                 </>
             )
-        } */
+        }
 
         return (
             <div className="d-flex gap-2">

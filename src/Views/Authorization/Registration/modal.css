@@ -1,9 +1,18 @@
 .popup-overlay {
    
+    z-index: 100000000 !important;
     background-color: rgba(0, 0, 0, 0.6);
 }
-
+.short-content {
+    height: 35vh !important;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    gap: 50px;
+}
 .popup-content {
+    border-radius: 8px;
     background-color: white;
     width: 50vw;
     height: 90vh;
@@ -24,3 +33,4 @@
     border-radius: 18px;
     border: 1px solid #cfcece;
   }
+

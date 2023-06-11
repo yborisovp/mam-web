@@ -1,5 +1,4 @@
 import {
-  faGithub,
   faGoogle,
   faVk,
   faYandex,
@@ -45,10 +44,10 @@ export const RegistrationPage = () => {
     };
 
     const state = UserService.RegisterUser(registerUser);
-    if (state) {
+    if (state === undefined) {
       navigate(ApplicationRoutes.HomePage);
     } else {
-      alert("User cannot be created");
+      alert(state);
     }
   };
 
@@ -76,13 +75,11 @@ export const RegistrationPage = () => {
       <div className="card-head bg-white d-flex flex-column space-around">
         <p className="m-0 text-center mt-3 mb-2">Зарегистрируйтесь с помощью</p>
         <div className="d-flex align-items-center justify-content-center gap-4">
-          <Button variant="light github">
-            <FontAwesomeIcon icon={faGithub} />
-          </Button>
           <Button variant="light google">
             <FontAwesomeIcon icon={faGoogle} />
           </Button>
-          <Button variant="light yandex">
+          <Button variant="light yandex"
+          onClick={() => window.location.replace("https://oauth.yandex.ru/authorize?response_type=code&client_id=30fea16c13b94db1a69857eb5e150fa1")}>
             <FontAwesomeIcon icon={faYandex} />
           </Button>
           <Button variant="light vk">

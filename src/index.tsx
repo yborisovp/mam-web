@@ -18,12 +18,14 @@ import { SearchView } from "./Views/SearchView/SearchView";
 import { ChatView } from "./Views/Chat/ChatView";
 import { ApplicationRoutes } from "./RoutesConstants";
 import { AdminPanel } from "./Views/AdminPanel/AdminPanel";
+import { CookiesProvider } from 'react-cookie';
 import NotFound from "./Views/NotFound/NotFoundView";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
+  <CookiesProvider>
   <BrowserRouter>
     <React.StrictMode>
       <Routes>
@@ -59,6 +61,7 @@ root.render(
       </Routes>
     </React.StrictMode>
   </BrowserRouter>
+  </CookiesProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
