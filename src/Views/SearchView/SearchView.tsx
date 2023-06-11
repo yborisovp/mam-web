@@ -1,28 +1,46 @@
 import { Accordion, Button, Form } from "react-bootstrap";
 import "./search.scss";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { SearchModel } from "../../Models/Search/SearchModel";
 import { SearchItemService } from "../../Services/SearchItemService";
 import { SellItemModel } from "../../Models/SellItem/SellItem";
 import { FilterView } from "./Filter";
+import { ApplicationRoutes } from "../../RoutesConstants";
 
 export const SearchView = () => {
   const [items, setItems] = useState<SellItemModel[]>();
-  const { state } = useLocation();
+  const [searchParams] = useSearchParams();
+  const navigator = useNavigate()
 
   const getData = async (params: SearchModel) => {
     const result = await SearchItemService.SearchByParams(params);
     setItems(result);
-  }
+  };
 
   useEffect(() => {
-    console.log(state)
-    const params: SearchModel = state;
-
+    const params: SearchModel = {
+      title: searchParams.get("title"),
+      priceFrom:
+        searchParams.get("priceFrom") === ""
+          ? null
+          : parseInt(searchParams.get("priceFrom") ?? ""),
+      priceUntil:
+        searchParams.get("priceUntil") === ""
+          ? null
+          : parseInt(searchParams.get("priceUntil") ?? ""),
+      getCount:
+        searchParams.get("getCount") === ""
+          ? null
+          : parseInt(searchParams.get("getCount") ?? ""),
+      skipCount:
+        searchParams.get("skipCount") === ""
+          ? null
+          : parseInt(searchParams.get("skipCount") ?? ""),
+    };
 
     getData(params).catch(console.error);
-  }, [state]);
+  }, [searchParams]);
 
   return (
     <div className="container container-main">
@@ -35,15 +53,16 @@ export const SearchView = () => {
         <div className="col-10 p-0">
           <div className="container d-flex flex-column gap-2 pt-2">
             {items?.map((i) => (
-              <div className="card p-4 " key={i.id}>
+              <div className="card cursor-pointer p-4 " key={i.id} onClick={() =>navigator(ApplicationRoutes.ItemRoute + `?id=${i.id}`)}>
                 <div className="row">
                   <div className="col-12 col-sm-12 col-md-12 col-lg-5">
-                    <a href="Individual-post.html">
+                   
                       <img
+                        alt=""
                         className="rounded object-fit-cover img-h"
                         src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/car-photography/car-photography_fb-img_1200x800.jpg"
                       />
-                    </a>
+                  
                   </div>
 
                   <div className="col-12 col-sm-12 col-md-12 col-lg-7">
@@ -61,9 +80,8 @@ export const SearchView = () => {
             ))}
           </div>
         </div>
-        <FilterView/>
+        <FilterView />
       </div>
     </div>
   );
 };
-

@@ -1,15 +1,34 @@
 import { Button, Carousel } from "react-bootstrap";
 import styles from "./item.module.scss";
 import { YMaps } from "react-yandex-maps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag } from "@fortawesome/free-solid-svg-icons";
 import Popup from "reactjs-popup";
+import { useSearchParams } from "react-router-dom";
+import { SellItemService } from "../../Services/SellItemService";
+import { SellItemModel } from "../../Models/SellItem/SellItem";
 
 export const ItemView = () => {
+  const [item, setItem] = useState<SellItemModel>();
   const [index, setIndex] = useState(0);
   const [modalIsOpen, setModalState] = useState(false);
+
+  const [searchParams] = useSearchParams();
+
+  const GetItemById = async (id: string) => {
+    const newItem = await SellItemService.GetById(id);
+    setItem(newItem);
+  }
+  useEffect(() => {
+    const id = searchParams.get("id");
+    if (id == null) {
+      console.error("cannot get id from location");
+    } else {
+      GetItemById(id);
+    }
+  });
 
   const handleSelect = (selectedIndex: number, e: any) => {
     setIndex(selectedIndex);
@@ -43,6 +62,7 @@ __Мощность__: 99 л.с.
 Toyota Vitz 2017 выглядит элегантно и стильно, со строгими линиями и динамичным дизайном. Этот автомобиль привлекает взгляды на дороге и отлично подходит для тех, кто ценит комфорт, стиль и компактность.
    
 __Если вы ищете надежный, компактный и стильный автомобиль для городской езды, то Toyota Vitz 2017 - отличный выбор. Свяжитесь с нами, чтобы узнать больше о этом автомобиле и возможных вариантах приобретения.__`;
+
   return (
     <div
       className={
@@ -87,11 +107,11 @@ __Если вы ищете надежный, компактный и стиль�
                 <div className="col-12 p-0">
                   <div className="d-flex justify-content-between">
                     <h3 className={styles["item-title"] + "mb-2 m-0"}>
-                      Toyota Vitz, 2017 год
+                      {item?.title}
                     </h3>
 
                     <h4 className={styles["item-title"] + "mb-2 m-0"}>
-                      4 500 000 ₽
+                      {item?.price} ₽
                     </h4>
                     <FontAwesomeIcon
                       className="cursor-pointer"
@@ -100,9 +120,7 @@ __Если вы ищете надежный, компактный и стиль�
                     />
                   </div>
 
-                  <h6 className="mb-0 font-monospace text-color-demigray">
-                    24 марта № 1118483189
-                  </h6>
+                  <h6 className="mb-0 font-monospace text-color-demigray"></h6>
                 </div>
               </div>
             </div>
@@ -110,54 +128,24 @@ __Если вы ищете надежный, компактный и стиль�
               <h5 className="text-w-600">Общая информация</h5>
               <div className="row mt-3">
                 <div className="d-flex flex-column">
-                  <div className="d-flex flex-row justify-content-between">
-                    <p className="mt-2 text-color-demigray">Состояние</p>
-                    <p className="text-end mt-2">Не битый</p>
-                  </div>
-                  <hr className="mt-1 w-100" />
+                  {item?.attributes.map((el) => {
+                    return (
+                      <>
+                        <div className="d-flex flex-row justify-content-between">
+                          <p className="mt-2 text-color-demigray">{el.key}</p>
+                          <p className="text-end mt-2">{el.value}</p>
+                        </div>
+                        <hr className="mt-1 w-100" />
+                      </>
+                    );
+                  })}
                 </div>
               </div>
             </div>
             <div className={styles["card-main"] + " card p-3 mb-3"}>
               <h5 className="text-w-600">Описание</h5>
-              {/* <p className={styles["text-main"] + " mt-2"}>
-                                {" "}
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                Incidunt minus recusandae eius saepe ab fugit delectus illum
-                                alias? Laudantium consequuntur fuga corporis deserunt
-                                dignissimos, excepturi alias necessitatibus! Eligendi odit,
-                                velit deleniti aliquid hic debitis quisquam temporibus tenetur
-                                maxime veniam a dolorem tempore fuga. Maxime blanditiis nobis
-                                debitis odit alias nemo quas sequi facere. Consectetur aliquid,
-                                perspiciatis maxime sint doloribus inventore quaerat rerum cum
-                                tempora facere rem nulla earum aut, aspernatur culpa accusamus
-                                sequi unde, itaque nobis obcaecati incidunt voluptate nesciunt
-                                architecto minus! Lorem ipsum dolor sit amet consectetur,
-                                adipisicing elit. Incidunt minus recusandae eius saepe ab fugit
-                                delectus illum alias? Laudantium consequuntur fuga corporis
-                                deserunt dignissimos, excepturi alias necessitatibus! Eligendi
-                                odit, velit deleniti aliquam aliquid eligendi assumenda
-                                sapiente. Aperiam praesentium facere sunt inventore, odit
-                                tempore nihil quaerat, eaque porro sint quae adipisci ab. At
-                                voluptas sint necessitatibus temporibus iusto, nobis ipsum odit
-                                eum fugiat quisquam voluptatum molestias nostrum accusamus
-                                magni, ab quas saepe eos neque tempore consequatur aliquam alias
-                                quod. Molestias eveniet sequi unde, itaque nobis obcaecati
-                                incidunt voluptate nesciunt architecto minus! Lorem ipsum dolor
-                                sit amet consectetur, adipisicing elit. Incidunt minus
-                                recusandae eius saepe ab fugit delectus illum alias? Laudantium
-                                consequuntur fuga corporis deserunt dignissimos, excepturi alias
-                                necessitatibus! Eligendi odit, velit deleniti aliquam aliquid
-                                eligendi assumenda sapiente. Aperiam praesentium facere sunt
-                                inventore, odit tempore nihil quaerat, eaque porro sint quae
-                                adipisci ab. At voluptas sint necessitatibus temporibus iusto,
-                                nobis ipsum odit eum fugiat quisquam voluptatum molestias
-                                nostrum accusamus magni, ab quas saepe eos neque tempore
-                                consequatur aliquam alias quod. Molestias eveniet sequi unde,
-                                itaque nobis obcaecati incidunt voluptate nesciunt architecto
-                                minus!
-                            </p> */}
-              <ReactMarkdown children={t} />
+              
+              <ReactMarkdown children={item?.description ?? ""} />
             </div>
 
             <div className=" card p-3 sticky-top">

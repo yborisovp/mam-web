@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { AttributesModel } from "../../Models/SellItem/Attributes";
 import { AllowedCarParameters } from "../../Models/SellItem/AllowedCarParameters";
 import "./createEdit.scss";
+import { SellItemService } from "../../Services/SellItemService";
+import { ApplicationRoutes } from "../../RoutesConstants";
 
 export type CreateEditViewProps = {
   edit: boolean;
@@ -110,23 +112,38 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
 
       const item: CreateSellItemModel = inputs;
       item.attributes = attributes;
-
-      console.log(item);
+      const response = await SellItemService.CreateItem(item);
+      navigate(ApplicationRoutes.ItemRoute + "?id=" + response?.id);
     }
   };
+
   return (
     <div className="container">
       <div className="container mt-4 mb-3 card-body width-m">
         <div className="card p-3 pt-4 ps-5 mb-3">
           <p className="h2 mb-5">Подать объявление о продаже автомобиля</p>
           
+          <div className="row mt-1">
+            <p className="h6 col-3 m-0 pt-3">Название</p>
+            <div className="col-5 pt-2">
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control input-form"
+                  id="exampleDropdownFormEmail1"
+                  placeholder="Ведите название"
+                  onChange={handleCreateModelChange("title")}
+                />
+              </div>
+            </div>
+          </div>
 
           <div className="row mt-0">
             <p className="h6 col-3 m-0 pt-2">Вид автомобиля</p>
             <div className="col-5">
               <select
                 className="form-select input-form"
-                onChange={handleAttributeModelChange("Chapter")}
+                onChange={handleAttributeModelChange("Type")}
               >
                 <option hidden value="DEFAULT">
                   Выберите вид автомобиля

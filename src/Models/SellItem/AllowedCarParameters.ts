@@ -2,7 +2,7 @@ function createEnum<T extends { [P in keyof T]: P }>(o: T) {
     return o;
 }
 export const AllowedCarParameters  = createEnum({
-    Chapter: "Chapter",
+    Type: "Type",
     EquipmentType: "EquipmentType",
     Brand: "Brand",
     Model: "Model",
