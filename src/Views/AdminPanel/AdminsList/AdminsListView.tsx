@@ -22,7 +22,7 @@ const columns: GridColDef[] = [
 ];
 
 let dataGridRows = [
-  { id: 1, name: "Ярослав Борисов", isAdmin: true },
+  { id: 1, name: "Ярослав Борисов", isAdmin: false},
   { id: 2, name: "Иванов Иван", isAdmin: true },
 ];
     

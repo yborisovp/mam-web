@@ -1,67 +1,95 @@
 import { Button, Carousel } from "react-bootstrap";
 import styles from "./item.module.scss";
 import { YMaps } from "react-yandex-maps";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag } from "@fortawesome/free-solid-svg-icons";
 import Popup from "reactjs-popup";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SellItemService } from "../../Services/SellItemService";
 import { SellItemModel } from "../../Models/SellItem/SellItem";
+import { LocalizationService } from "../../Services/Localization/LocalizationService";
+import { DateTime } from "ts-luxon";
+import MDEditor from "@uiw/react-md-editor";
+import { DealService } from "../../Services/DealService";
+import { CookieService } from "../../Services/CookieDecoderService";
+import { CookiesConstants } from "../CookiesConstants";
+import { UserModel } from "../../Models/User/IUser";
+import { ReportService } from "../../Services/ReportServices";
+import { ApplicationRoutes } from "../../RoutesConstants";
 
 export const ItemView = () => {
   const [item, setItem] = useState<SellItemModel>();
   const [index, setIndex] = useState(0);
+  const [currentUser, setCurrentUser] = useState<UserModel>();
   const [modalIsOpen, setModalState] = useState(false);
 
   const [searchParams] = useSearchParams();
 
   const GetItemById = async (id: string) => {
-    const newItem = await SellItemService.GetById(id);
+    const newItem = await SellItemService.GetById(id, true);
     setItem(newItem);
-  }
+  };
   useEffect(() => {
+    if (CookieService.CheckCookie(CookiesConstants.UserCookie)) {
+      const user = CookieService.DecodeCookie<UserModel>(
+        CookiesConstants.UserCookie
+      )
+      setCurrentUser(user);  
+    }
     const id = searchParams.get("id");
     if (id == null) {
       console.error("cannot get id from location");
     } else {
       GetItemById(id);
     }
-  });
+  }, [searchParams]);
 
   const handleSelect = (selectedIndex: number, e: any) => {
     setIndex(selectedIndex);
   };
-  const t = `## Тойота Витц 2017 года выпуска
-это компактный и надежный хэтчбек, который идеально подойдет для городской езды. Автомобиль находится в прекрасном состоянии и имеет пробег всего 30 тысяч километров.
-   
-__Характеристики__
 
-Двигатель: Бензиновый 4-цилиндровый двигатель объемом 1,3 литра
+  const makeDeal = async () => {
+    if (CookieService.CheckCookie(CookiesConstants.UserCookie)) {
+      if (item?.owner) {
+        const user = CookieService.DecodeCookie<UserModel>(
+          CookiesConstants.UserCookie
+        );
+        const state = await DealService.CreateDeal({
+          ownerUserId: item.owner.id,
+          buyerUserId: user.id,
+          sellItemId: item.id,
+        });
+        if (state) {
+          alert("Сообщение о сделке отпарвлено ползователю");
+        } else {
+          alert("Сделка не возможна. Вероятно товар уже продан");
+        }
+      }else {
+        alert("Чтобы заключать сделики - зарегистрируйтесь!")
+      }
 
-__Мощность__: 99 л.с.
+    } else {
+      alert("Авторизуйтесь, чтобы совершить сделку");
+    }
+  };
 
-Коробка передач: Автоматическая коробка передач
-
-Привод: Передний привод
-
-Расход топлива: 5,5 литров на 100 км
-
-Особенности
-Комфортный и просторный салон
-
-Современные технологии, включая систему мультимедиа и Bluetooth
-
-Высокий уровень надежности и безопасности
-
-Компактный размер, идеально подходящий для городской езды
-
-Внешний вид
-
-Toyota Vitz 2017 выглядит элегантно и стильно, со строгими линиями и динамичным дизайном. Этот автомобиль привлекает взгляды на дороге и отлично подходит для тех, кто ценит комфорт, стиль и компактность.
-   
-__Если вы ищете надежный, компактный и стильный автомобиль для городской езды, то Toyota Vitz 2017 - отличный выбор. Свяжитесь с нами, чтобы узнать больше о этом автомобиле и возможных вариантах приобретения.__`;
+  const [reportText, setReportText] = useState("");
+  const navigator = useNavigate();
+  const  createReport = async () => {
+    if (item !== undefined) {
+      const state = await ReportService.CreateReport(item?.id, reportText);
+      if (state){
+        navigator(ApplicationRoutes.HomePage);
+      }
+      else {
+        alert("Неудалось создат запрос на создание нарушения. Попробуйте снова" )
+      }
+    }
+    alert("невозможно отправить отчет, попробуйте снова");
+    
+  }
 
   return (
     <div
@@ -81,7 +109,17 @@ __Если вы ищете надежный, компактный и стиль�
               activeIndex={index}
               onSelect={handleSelect}
             >
-              <Carousel.Item className="rounded-2">
+              {item?.files.map((el) => (
+                <Carousel.Item key={el.filePath} className="rounded-2">
+                <div className={styles["img-container"] + " rounded-1"}>
+                  <img
+                    src={el.filePath}
+                    className="mx-auto rounded-2 d-block"
+                    alt="..."
+                  />
+                </div>
+              </Carousel.Item>))}
+              {/* <Carousel.Item className="rounded-2">
                 <div className={styles["img-container"] + " rounded-1"}>
                   <img
                     src="https://hips.hearstapps.com/hmg-prod/images/2023-mclaren-artura-101-1655218102.jpg?crop=1.00xw:0.847xh;0,0.153xh&resize=1200:*"
@@ -98,7 +136,7 @@ __Если вы ищете надежный, компактный и стиль�
                     alt="..."
                   />
                 </div>
-              </Carousel.Item>
+              </Carousel.Item> */}
             </Carousel>
           </div>
           <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 pe-0">
@@ -113,11 +151,12 @@ __Если вы ищете надежный, компактный и стиль�
                     <h4 className={styles["item-title"] + "mb-2 m-0"}>
                       {item?.price} ₽
                     </h4>
-                    <FontAwesomeIcon
+                    {currentUser?.id === item?.owner?.id? (<></>) : (<FontAwesomeIcon
                       className="cursor-pointer"
                       icon={faFlag}
                       onClick={() => setModalState(true)}
-                    />
+                    />)}
+                    
                   </div>
 
                   <h6 className="mb-0 font-monospace text-color-demigray"></h6>
@@ -130,22 +169,38 @@ __Если вы ищете надежный, компактный и стиль�
                 <div className="d-flex flex-column">
                   {item?.attributes.map((el) => {
                     return (
-                      <>
+                      <Fragment key={el.key}>
                         <div className="d-flex flex-row justify-content-between">
-                          <p className="mt-2 text-color-demigray">{el.key}</p>
-                          <p className="text-end mt-2">{el.value}</p>
+                          <p className="mt-2 text-color-demigray">
+                            {LocalizationService.LocalizeCarAdditionalAttributes(
+                              el.key
+                            )}
+                          </p>
+                          <p className="text-end mt-2">
+                            {el.key === "Year".toLowerCase()
+                              ? DateTime.fromISO(el.value).toFormat(
+                                  "MMMM d, yyyy"
+                                )
+                              : el.value}
+                          </p>
                         </div>
                         <hr className="mt-1 w-100" />
-                      </>
+                      </Fragment>
                     );
                   })}
                 </div>
               </div>
             </div>
-            <div className={styles["card-main"] + " card p-3 mb-3"}>
+            <div
+              data-color-mode="light"
+              className={styles["card-main"] + " card p-3 mb-3"}
+            >
               <h5 className="text-w-600">Описание</h5>
-              
-              <ReactMarkdown children={item?.description ?? ""} />
+
+              <MDEditor.Markdown
+                source={item?.description}
+                style={{ whiteSpace: "pre-wrap" }}
+              />
             </div>
 
             <div className=" card p-3 sticky-top">
@@ -159,16 +214,13 @@ __Если вы ищете надежный, компактный и стиль�
                 </div>
                 <div className="col-4">
                   <p className="m-0 text-color-demigray">Продавец</p>
-                  <h5>Иван Иванов</h5>
+                  <h5>{item?.owner?.fullName}</h5>
                 </div>
-                <div className="col-3 ">
-                  <a
-                    className="btn btn-primary btn-xlg"
-                    href="tel:713-992-0916"
-                  >
-                    713-992-0916
-                  </a>
-                </div>
+                {currentUser?.id === undefined ? (<></>) : currentUser?.id === item?.owner?.id? (<></>) : (<div className="col-3 ">
+                  <Button onClick={() => makeDeal()}>
+                    Договориться о сделке
+                  </Button>
+                </div>)}
                 <div className="col-3 "></div>
               </div>
             </div>
@@ -187,8 +239,8 @@ __Если вы ищете надежный, компактный и стиль�
           &times;
         </button>
         <span>Пожалуйста, опишите проблему</span>
-        <textarea className="form-control" rows={3}></textarea>
-        <Button>Отправить</Button>
+        <textarea className="form-control" rows={3} onChange={(e) => setReportText(e.target.value)}></textarea>
+        <Button onClick={() => createReport()}>Отправить</Button>
       </Popup>
     </div>
   );

@@ -1,4 +1,5 @@
 import { FileModel } from "../FileModel";
+import { UserModel } from "../User/IUser";
 import { AttributesModel } from "./Attributes";
 
 export interface SellItemModel {
@@ -12,4 +13,5 @@ export interface SellItemModel {
   postedAt: Date;
   files: FileModel[];
   attributes: AttributesModel[];
+  owner?: UserModel
 }

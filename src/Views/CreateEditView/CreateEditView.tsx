@@ -7,16 +7,20 @@ import { AllowedCarParameters } from "../../Models/SellItem/AllowedCarParameters
 import "./createEdit.scss";
 import { SellItemService } from "../../Services/SellItemService";
 import { ApplicationRoutes } from "../../RoutesConstants";
+import { FileModel } from "../../Models/FileModel";
+import MDEditor from "@uiw/react-md-editor";
 
 export type CreateEditViewProps = {
   edit: boolean;
 };
 
 type CreateModel<T> = { [K in keyof T]: T[K] };
+
 export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState<CreateModel<CreateSellItemModel>>();
   const [attributes, setAttributes] = useState<AttributesModel[]>([]);
+  const [description, setDescription] = useState("");
 
   const handleCreateModelChange = <T, K extends keyof CreateSellItemModel>(
     formStateItem: K
@@ -34,8 +38,28 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
     };
   };
 
-  const handleAttributeModelChange = <T,K extends keyof typeof AllowedCarParameters>(formStateItem: K) => {
-    return (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
+  const handleDescriptionChange = (e: string | undefined) => {
+    if (e !== undefined) {
+      setDescription(e);
+      setInputs(
+        (values) =>
+          ({
+            ...values,
+            description: e,
+          } as CreateModel<CreateSellItemModel>)
+      );
+    }
+  };
+
+  const handleAttributeModelChange = <
+    T,
+    K extends keyof typeof AllowedCarParameters
+  >(
+    formStateItem: K
+  ) => {
+    return (
+      e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>
+    ) => {
       const newItem: AttributesModel = {
         key: formStateItem,
         value: e.target.value as string,
@@ -54,12 +78,10 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
             }
             return item; // else return unmodified item
           });
-          console.log(updatedList);
           setAttributes(updatedList);
         } else {
           const arr = attributes;
           arr.push(newItem);
-          console.log(arr);
           setAttributes(arr);
         }
       }
@@ -92,23 +114,46 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
             }
             return item; // else return unmodified item
           });
-          console.log(updatedList);
+
           setAttributes(updatedList);
         } else {
           const arr = attributes;
           arr.push(newItem);
-          console.log(arr);
+
           setAttributes(arr);
         }
       }
     };
   };
 
+  const handleFilesInput = () => {
+    return (e: ChangeEvent<HTMLInputElement>) => {
+      let files: FileModel[] = [];
+      if (inputs && inputs.files !== undefined) {
+        files = inputs.files;
+      }
+      const a = e.target.files;
+      if (a !== null) {
+        Array.from(a).map((f) => {
+          /* const formData = new FormData();
+          formData.append(f.name, f); */
+          files.push(new FileModel(f, 0, ""));
+        });
+       
+      }
+
+      setInputs(
+        (values) =>
+          ({
+            ...values,
+            files: files,
+          } as CreateModel<CreateSellItemModel>)
+      );
+    };
+  };
+
   const handleSubmit = async (event: any) => {
     if (inputs !== undefined) {
-      /* await SellItemService.CreateItem(inputs);
-      navigate(ApplicationRoutes.SearchRoute , {state: {title: inputs.title}})
-      return; */
 
       const item: CreateSellItemModel = inputs;
       item.attributes = attributes;
@@ -122,7 +167,7 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
       <div className="container mt-4 mb-3 card-body width-m">
         <div className="card p-3 pt-4 ps-5 mb-3">
           <p className="h2 mb-5">Подать объявление о продаже автомобиля</p>
-          
+
           <div className="row mt-1">
             <p className="h6 col-3 m-0 pt-3">Название</p>
             <div className="col-5 pt-2">
@@ -225,7 +270,7 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
             <p className="h6 col-3 m-0 pt-2">Год выпуска</p>
             <div className="col-5">
               <Form.Control
-              id="dateControll"
+                id="dateControll"
                 type="date"
                 onChange={handleAttributeModelChangeForInput("Year")}
               />
@@ -341,7 +386,7 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
               <div className="mb-3">
                 <input
                   type="text"
-                  className="form-control input-form error"
+                  className="form-control input-form"
                   id="exampleDropdownFormEmail1"
                   placeholder="л"
                 />
@@ -380,21 +425,16 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
           </div>
 
           <p className="h6 col-3 m-0 mt-2 pt-2 mb-3">Описание</p>
-          <textarea
-            className="text-area text-box multi-line me-4 input-form"
-            data-val="true"
-            data-val-length="Maximum = 2045 characters"
-            data-val-length-max="2045"
-            id="info"
-            name="info"
-            cols={40}
-            rows={3}
-            onChange={handleCreateModelChange("description")}
-          ></textarea>
+          <MDEditor
+            data-color-mode="light"
+            value={description}
+            onChange={(e) => handleDescriptionChange(e)}
+          />
 
           <p className="h6 col-3 m-0 mt-2 pt-2 mb-3">Выберите фотографии</p>
           <div className="me-4">
             <input
+              onChange={handleFilesInput()}
               className="form-control"
               type="file"
               id="formFileMultiple"
@@ -402,7 +442,9 @@ export const CreateEditView = ({ edit = false }: CreateEditViewProps) => {
             />
           </div>
 
-          <Button className="mt-4 me-4 mb-3" onClick={handleSubmit}>Отправить</Button>
+          <Button className="mt-4 me-4 mb-3" onClick={handleSubmit}>
+            Отправить
+          </Button>
         </div>
       </div>
     </div>

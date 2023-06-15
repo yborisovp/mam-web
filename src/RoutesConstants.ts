@@ -1,5 +1,5 @@
 export abstract class ApplicationRoutes {
-    public static SearchRoute = "/search";
+    public static SearchRoute = "/s";
     public static CreateRoute = "/create";
     public static EditRoute = "/edit";
     public static ItemRoute = "/item";

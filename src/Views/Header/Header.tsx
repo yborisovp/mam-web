@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import "./header.scss";
 import { Button, Navbar } from "react-bootstrap";
 import { useEffect, useState } from "react";
@@ -10,6 +10,8 @@ import { CookiesConstants } from "../CookiesConstants";
 
 function Header() {
     const [searchTitle, setSearchTitle] = useState("");
+    const [shouldRedirect, setRedirect] = useState(false);
+    const [searchParams, setSearchParamsTitle] = useState("");
     const [user, setUser] = useState<UserModel>();
     const navigate = useNavigate();
 
@@ -18,24 +20,44 @@ function Header() {
             const newUser = CookieService.DecodeCookie<UserModel>(CookiesConstants.UserCookie);
             setUser(newUser);
         }
+        else {
+            setUser(undefined)
+        }
+
+        const storage = localStorage.getItem("search");
+    if (storage !== null) {
+        let model: SearchModel = JSON.parse(storage);
+        if (model.title !== null) {
+            setSearchTitle(model.title);
+        }
+        
+    }
     }, []);
 
     const handleKeyDown = async (event: any) => {
         if (event.key === 'Enter') {
-            const search: SearchModel = {
+            const model: SearchModel = {
                 title: searchTitle,
                 priceFrom: null,
                 priceUntil: null,
-                getCount: null,
+                getCount:  null,
                 skipCount: null
             }
-            navigate(ApplicationRoutes.SearchRoute, { state: search });
+            localStorage.setItem("search", JSON.stringify(model))
+            setRedirect(true);
         }
     }
 
+    useEffect(() => {
+        if (shouldRedirect)
+        {
+            navigate({pathname: ApplicationRoutes.SearchRoute});
+        }
+    }, [navigate, searchParams, shouldRedirect])
+
 
     const nav = () => {
-        if (user !== null) {
+        if (user !== undefined) {
             return (
                 <>
                     <div className="d-flex gap-2">
@@ -84,6 +106,7 @@ function Header() {
                                     className="form-control search-field"
                                     onChange={(e) => setSearchTitle(e.target.value)}
                                     onKeyDown={handleKeyDown}
+                                    value={searchTitle}
                                     type="search"
                                     name="search"
                                     id="search-field"

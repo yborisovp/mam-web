@@ -30,7 +30,7 @@ export const RegistrationPage = () => {
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
 
-  const registerUser = () => {
+  const registerUser = async () => {
     if (password !== passwordValidate) {
       alert("Пароли должны совпадать");
     }
@@ -43,7 +43,7 @@ export const RegistrationPage = () => {
       email: email,
     };
 
-    const state = UserService.RegisterUser(registerUser);
+    const state = await UserService.RegisterUser(registerUser);
     if (state === undefined) {
       navigate(ApplicationRoutes.HomePage);
     } else {

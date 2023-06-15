@@ -9,24 +9,32 @@ import { AxiosError } from "axios";
 import { DateTime } from "ts-luxon";
 
 export abstract class SellItemService {
-    public static async GetById(id: string): Promise<SellItemModel | undefined> {
+    public static async GetAllByUserId(): Promise<SellItemModel[]> {
+        const token = await GetAccessToken();
+        let items: SellItemModel[] = [];
+        await SellItemApi.get<SellItemModel[]>(`/by-user`, {headers: { Authorization: `Bearer ${token}` }}).then((res) => {
+            items = res.data;
+        });
+        return items;
+    }
+    public static async GetById(id: string, withOwner: boolean = false): Promise<SellItemModel | undefined> {
         let item: SellItemModel | undefined = undefined;
         await SellItemApi.get<SellItemModel>(`/${id}`).then((res) => {
-          if (IsApiError(res)) {
-            console.log(res.title);
-          }
           item = res.data;
         });
 
         return item;
     }
 
-    public static async CreateItem(params: CreateSellItemModel): Promise<SellItemModel | undefined>{
+    public static async CreateItem(p: CreateSellItemModel): Promise<SellItemModel | undefined>{
         const token = await GetAccessToken();
-
-        const response = await SellItemApi.post<SellItemModel>("/", params, {headers: { Authorization: `Bearer ${token}` }});
+        const files = p.files;
+        p.files = [];
+        const response = await SellItemApi.post<SellItemModel>("/", p, {headers: { Authorization: `Bearer ${token}` }});
         if (response.data) {
-            return response.data;
+            const form = new FormData();
+            files.forEach((f) => form.append(f.file.name, f.file));
+            await SellItemApi.put("/files-upload", {files: form})
         }
         return;
     }
@@ -45,7 +53,7 @@ export abstract class SellItemService {
     }
 }
 
-async function GetAccessToken(): Promise<string> {
+export async function GetAccessToken(): Promise<string> {
     const cookiesProvider = new Cookies();
     let accessToken = cookiesProvider.get<string>(CookiesConstants.SellItemAccessToken);
     if (!accessToken) {
@@ -55,7 +63,7 @@ async function GetAccessToken(): Promise<string> {
             console.error("User not authorized");
         }
 
-        await SellItemBaseAPi.get<string>("/token?email=" + userCookie.email + "&refreshToken=" + userCookie.refreshToken)
+        await SellItemBaseAPi.get<string>("/token?email=" + userCookie.email + "&refreshToken=" + encodeURIComponent(userCookie.refreshToken))
         .then((res) => {
             accessToken = res.data;
             const expirationDate = DateTime.local().plus({minutes: CookiesConstants.UserExpirationTimeInMinutes});

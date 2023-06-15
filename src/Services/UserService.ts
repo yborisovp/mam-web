@@ -7,9 +7,30 @@ import { RegisterUserModel } from "../Models/User/RegisterUser";
 import { CookiesConstants } from "../Views/CookiesConstants";
 import { CookieService } from "./CookieDecoderService";
 import {DateTime} from "ts-luxon";
+import { GetAccessToken } from "./SellItemService";
 
 export abstract class UserService
 {
+    public static async  LogoutUser() {
+        if (CookieService.CheckCookie(CookiesConstants.UserCookie)) {
+            const user = CookieService.DecodeCookie<UserModel>(CookiesConstants.UserCookie);
+            await UserClient.post("/logout", {headers: { Authorization: `Bearer ${user.accessToken}` }}).then((res) => {
+                CookieService.RemoveAllCookies();
+              })
+              .catch((r) => {
+                CookieService.RemoveAllCookies();
+              })
+        }
+      
+    }
+    public static async  GetUserById(userId: number): Promise<UserModel | undefined> {
+        
+        let user: UserModel | undefined = undefined;
+        await UserClient.get<UserModel>(`/${userId}`).then((res) => {
+            user = res.data;
+        })
+        return user;
+    }
     public static async LoginUser(loginUser: LoginUserModel): Promise<string | undefined> {
         
         let error: undefined | string = undefined;

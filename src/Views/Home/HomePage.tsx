@@ -17,6 +17,7 @@ import { SearchModel } from "../../Models/Search/SearchModel";
 import { SearchItemService } from "../../Services/SearchItemService";
 import { ApplicationRoutes } from "../../RoutesConstants";
 import { SellItemService } from "../../Services/SellItemService";
+import MDEditor from "@uiw/react-md-editor";
 
 function HomePage() {
   const [items, setItems] = useState<SellItemModel[]>();
@@ -107,10 +108,10 @@ function HomePage() {
             <h1>Найдется здесь</h1>
           </div>
           <div className="searchContainer search-toolbox row d-flex p-0">
-            {customDropdown("Тип", [item1, item2], true)}
+            {customDropdown("Состояние  ", [item1, item2], true)}
             {customDropdown("Марка", [item3, item4, item5])}
             {customDropdown("Тип", [item7, item6])}
-            <button className="searchContainer search-toolbox search col p-0">
+            <button onClick={() => navigate(ApplicationRoutes.SearchRoute)} className="searchContainer search-toolbox search col p-0">
               Найти
             </button>
           </div>
@@ -119,38 +120,40 @@ function HomePage() {
       <div className="row p-2">
         {items?.map((el) => {
           return (
-            <>
-              <div
-                className="col-12 col-sm-12 col-md-6 col-ld-12 col-xl-12 p-0 cursor-pointer"
-                onClick={() => navigate(ApplicationRoutes.ItemRoute + "?id="+el.id)}
-              >
-                <div className="container d-flex flex-column gap-2 p-1 pt-2">
-                  <div className="card p-4 border mb-2">
-                    <div className="row">
-                      <div className="col-12 col-sm-12 col-md-12 col-lg-5">
-                        <img
-                          className="rounded img-h2 w-100 h-100"
-                          src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/car-photography/car-photography_fb-img_1200x800.jpg"
-                        />
-                      </div>
+            <div
+              key={el.id}
+              className="col-12 col-sm-12 col-md-6 col-ld-12 col-xl-12 p-0 cursor-pointer"
+              onClick={() =>
+                navigate(ApplicationRoutes.ItemRoute + "?id=" + el.id)
+              }
+            >
+              <div className="container d-flex flex-column gap-2 p-1 pt-2">
+                <div className="card p-4 border mb-2">
+                  <div className="row">
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-5">
+                    {el.files.length === 0 ? (<>Нет изображения</>): <img
+                        alt=""
+                        className="rounded object-fit-cover img-h"
+                        src={el.files[0].filePath}
+                        />}
+                    </div>
 
-                      <div className="col-12 col-sm-12 col-md-12 col-lg-7">
-                        <div className="row mt-md-3 mt-3 mt-sm-3 mt-lg-0 mt-xl-0">
-                          <p className="h4 col-6 ">{el.title}</p>
-                          <p className="h3 col-6 text-all-end">{el.price} ₽</p>
-                        </div>
-                        <p className="h6 pt-3 text-color-demigray">{el.attributes.find(a => a.key === "Type")?.value}</p>
-                        <div className="pt-1 crop-text-1 desc text-f">
-                          <ReactMarkdown>
-                            {el.body}
-                          </ReactMarkdown>
-                        </div>
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-7">
+                      <div className="row mt-md-3 mt-3 mt-sm-3 mt-lg-0 mt-xl-0">
+                        <p className="h4 col-6 ">{el.title}</p>
+                        <p className="h3 col-6 text-all-end">{el.price} ₽</p>
+                      </div>
+                      <p className="h6 pt-3 text-color-demigray">
+                        {el.attributes.find((a) => a.key === "Type")?.value}
+                      </p>
+                      <div className="pt-1 crop-text-1 desc text-f">
+                        <MDEditor.Markdown source={el.description}/>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           );
         })}
       </div>

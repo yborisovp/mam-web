@@ -1,4 +1,16 @@
+import { useEffect, useState } from "react";
+import { ReportUIModel } from "../../../Models/ReportModel";
+import { ReportService } from "../../../Services/ReportServices";
+
 export const ReportsView = () => {
+    const [reports, setReports] = useState<ReportUIModel>()
+    useEffect(() => {
+
+    }, []);
+
+    /* const getReports = async () => {
+        const a = ReportService.GetAll();
+    } */
     return (
         <div className="col-lg-10 col-xl-10 col-md-12 col-sm-12 col-12 ps-0 row mx-auto">
 

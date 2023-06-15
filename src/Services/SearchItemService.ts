@@ -37,4 +37,13 @@ export abstract class SearchItemService
         }
         return [];
     }
+
+    public static async GetAvailableFilters(): Promise<string[]> {
+        const response = await SellItemApi.get<string[]>("/filters");
+        if (response.data)
+        {
+            return response.data;
+        }
+        return [];
+    }
 }
